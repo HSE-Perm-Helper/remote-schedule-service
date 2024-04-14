@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  remote-schedule-service:
+    image: melowetty/remote-schedule-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 9000:9000
+    env_file: ./.env
+    environment:
+      - SERVER_PORT=9000
+    restart: always

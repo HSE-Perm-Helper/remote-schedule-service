@@ -1,0 +1,240 @@
+BEGIN:VCALENDAR
+CALSCALE:GREGORIAN
+VERSION:2.0
+PRODID:-//HSE Perm Schedule Bot//Расписание пар 1.0//RU
+NAME:Расписание
+X-WR-CALNAME:Расписание
+METHOD:PUBLISH
+DESCRIPTION:Расписание пар в НИУ ВШЭ - Пермь by HSE Perm Schedule Bot
+X-WR-CALDESC:Расписание пар в НИУ ВШЭ - Пермь by HSE Perm Schedule Bot
+COLOR:0:71:187
+X-APPLE-CALENDAR-COLOR:#0047BB
+REFRESH-INTERVAL:PT1H
+BEGIN:VTIMEZONE
+TZID:Asia/Yekaterinburg
+LAST-MODIFIED:20231222T233358Z
+TZURL:https://www.tzurl.org/zoneinfo/Asia/Yekaterinburg
+X-LIC-LOCATION:Asia/Yekaterinburg
+X-PROLEPTIC-TZNAME:LMT
+BEGIN:STANDARD
+TZNAME:PMT
+TZOFFSETFROM:+040233
+TZOFFSETTO:+034505
+DTSTART:19160703T000000
+END:STANDARD
+BEGIN:STANDARD
+TZNAME:+04
+TZOFFSETFROM:+034505
+TZOFFSETTO:+0400
+DTSTART:19190715T040000
+END:STANDARD
+BEGIN:STANDARD
+TZNAME:+05
+TZOFFSETFROM:+0400
+TZOFFSETTO:+0500
+DTSTART:19300621T000000
+RDATE:19920119T020000
+END:STANDARD
+BEGIN:DAYLIGHT
+TZNAME:+06
+TZOFFSETFROM:+0500
+TZOFFSETTO:+0600
+DTSTART:19810401T000000
+RRULE:FREQ=YEARLY;UNTIL=19840331T190000Z
+END:DAYLIGHT
+BEGIN:STANDARD
+TZNAME:+05
+TZOFFSETFROM:+0600
+TZOFFSETTO:+0500
+DTSTART:19811001T000000
+RRULE:FREQ=YEARLY;UNTIL=19830930T180000Z
+END:STANDARD
+BEGIN:STANDARD
+TZNAME:+05
+TZOFFSETFROM:+0600
+TZOFFSETTO:+0500
+DTSTART:19840930T030000
+RRULE:FREQ=YEARLY;UNTIL=19900929T210000Z;BYMONTH=9;BYDAY=-1SU
+END:STANDARD
+BEGIN:DAYLIGHT
+TZNAME:+06
+TZOFFSETFROM:+0500
+TZOFFSETTO:+0600
+DTSTART:19850331T020000
+RRULE:FREQ=YEARLY;UNTIL=19900324T210000Z;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:DAYLIGHT
+TZNAME:+05
+TZOFFSETFROM:+0500
+TZOFFSETTO:+0500
+DTSTART:19910331T020000
+END:DAYLIGHT
+BEGIN:STANDARD
+TZNAME:+04
+TZOFFSETFROM:+0500
+TZOFFSETTO:+0400
+DTSTART:19910929T030000
+END:STANDARD
+BEGIN:DAYLIGHT
+TZNAME:+06
+TZOFFSETFROM:+0500
+TZOFFSETTO:+0600
+DTSTART:19920329T020000
+RRULE:FREQ=YEARLY;UNTIL=20100327T210000Z;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZNAME:+05
+TZOFFSETFROM:+0600
+TZOFFSETTO:+0500
+DTSTART:19920927T030000
+RRULE:FREQ=YEARLY;UNTIL=19950923T210000Z;BYMONTH=9;BYDAY=-1SU
+END:STANDARD
+BEGIN:STANDARD
+TZNAME:+05
+TZOFFSETFROM:+0600
+TZOFFSETTO:+0500
+DTSTART:19961027T030000
+RRULE:FREQ=YEARLY;UNTIL=20101030T210000Z;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+BEGIN:STANDARD
+TZNAME:+06
+TZOFFSETFROM:+0500
+TZOFFSETTO:+0600
+DTSTART:20110327T020000
+END:STANDARD
+BEGIN:STANDARD
+TZNAME:+05
+TZOFFSETFROM:+0600
+TZOFFSETTO:+0500
+DTSTART:20141026T020000
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+DTSTAMP:20240412T084017Z
+DTSTART:20240408T131000
+DTEND:20240408T143000
+SUMMARY:Лекция: Алгоритмы и структуры данных
+UID:636b37ce-9f9f-4a34-9e25-535504d3fed2
+DESCRIPTION:Преподаватель: Морозенко В.В.\nМесто: 220 - 2 корпус
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240412T084017Z
+DTSTART:20240409T113000
+DTEND:20240409T125000
+SUMMARY:Семинар: Математические методы анализа данных
+UID:5667dbce-149d-406e-a655-a4d3d9f4bc35
+DESCRIPTION:Преподаватель: Бердышев О.В.\nМесто: 510 - 3 корпус
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240412T084017Z
+DTSTART:20240410T094000
+DTEND:20240410T110000
+SUMMARY:Майнор
+UID:6041c31b-0c98-4739-a8bc-470804b6b55c
+DESCRIPTION:Информацию о времени и ссылке на майнор узнайте подробнее в HSE App X или в системе РУЗ
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240412T084017Z
+DTSTART:20240411T094000
+DTEND:20240411T110000
+SUMMARY:🖥️Лекция: Математические методы анализа данных
+UID:6876926c-8f55-4a50-958d-f2c99eed2771
+DESCRIPTION:Преподаватель: Мыльников Л.А.\nМесто: онлайн
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240412T084017Z
+DTSTART:20240411T131000
+DTEND:20240411T143000
+SUMMARY:Семинар: Алгоритмы и структуры данных
+UID:0f581d55-c4e1-48a4-a477-72bcbd6af14c
+DESCRIPTION:Преподаватель: Михайлов А.В.\nМесто: 510 - 3 корпус
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240412T084017Z
+DTSTART:20240412T131000
+DTEND:20240412T143000
+SUMMARY:🖥️Лекция: Конструирование программ. обеспечения
+UID:896c5617-2961-45b6-a9f9-2fd53cfa5ebb
+DESCRIPTION:Преподаватель: Ланин В.В.\nМесто: онлайн
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240412T084017Z
+DTSTART:20240412T150000
+DTEND:20240412T162000
+SUMMARY:🖥️Семинар: Конструирование программ. обеспечения
+UID:60f510ff-6bfb-44e8-9c45-4e50b69302f3
+DESCRIPTION:Преподаватель: Ланин В.В.\nМесто: онлайн
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240412T084017Z
+DTSTART:20240413T150000
+DTEND:20240413T162000
+SUMMARY:🖥️Семинар: Анализ данных в Python
+UID:677cce95-ee74-4d4e-8fba-78c7d2d84fad
+DESCRIPTION:Преподаватель: Тамбовцева А.А.\nМесто: онлайн
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240412T084017Z
+DTSTART:20240415T131000
+DTEND:20240415T143000
+SUMMARY:Лекция: Алгоритмы и структуры данных
+UID:765535e9-4f82-44e5-a917-e7722dd9b9ff
+DESCRIPTION:Преподаватель: Морозенко В.В.\nМесто: 220 - 2 корпус
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240412T084017Z
+DTSTART:20240416T113000
+DTEND:20240416T125000
+SUMMARY:Семинар: Математические методы анализа данных
+UID:84b0e161-9fb1-4bd2-b6fa-4765d80ad968
+DESCRIPTION:Преподаватель: Бердышев О.В.\nМесто: 510 - 3 корпус
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240412T084017Z
+DTSTART:20240417T094000
+DTEND:20240417T110000
+SUMMARY:Майнор
+UID:e49901d6-ea44-4d80-aee1-ea80abadb52f
+DESCRIPTION:Информацию о времени и ссылке на майнор узнайте подробнее в HSE App X или в системе РУЗ
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240412T084017Z
+DTSTART:20240418T094000
+DTEND:20240418T110000
+SUMMARY:🖥️Лекция: Математические методы анализа данных
+UID:dea4e923-9017-4dfa-98f6-f1c3d5e5c26b
+DESCRIPTION:Преподаватель: Мыльников Л.А.\nМесто: онлайн
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240412T084017Z
+DTSTART:20240418T131000
+DTEND:20240418T143000
+SUMMARY:Семинар: Алгоритмы и структуры данных
+UID:a8bf99b1-25bd-45ab-8b72-063cf7eed031
+DESCRIPTION:Преподаватель: Михайлов А.В.\nМесто: 510 - 3 корпус
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240412T084017Z
+DTSTART:20240419T131000
+DTEND:20240419T143000
+SUMMARY:🖥️Лекция: Конструирование программ. обеспечения
+UID:8591edc9-2493-4a1e-b404-9fdec6a108ff
+DESCRIPTION:Преподаватель: Ланин В.В.\nМесто: онлайн
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240412T084017Z
+DTSTART:20240419T150000
+DTEND:20240419T162000
+SUMMARY:🖥️Семинар: Конструирование программ. обеспечения
+UID:31ee445f-7a8f-4f7d-8767-902b715494d9
+DESCRIPTION:Преподаватель: Ланин В.В.\nМесто: онлайн
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:20240412T084017Z
+DTSTART:20240420T150000
+DTEND:20240420T162000
+SUMMARY:🖥️Семинар: Анализ данных в Python
+UID:90e5d3bd-d1e7-4700-83b8-6c1d1396f1aa
+DESCRIPTION:Преподаватель: Тамбовцева А.А.\nМесто: онлайн
+END:VEVENT
+END:VCALENDAR
