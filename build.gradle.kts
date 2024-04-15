@@ -25,6 +25,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
+    /* [Calendar File Module] */
+    implementation("org.mnode.ical4j:ical4j:4.0.0-beta9")
+    implementation("org.springframework.cloud:spring-cloud-starter-openfeign:4.1.1")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
 }
