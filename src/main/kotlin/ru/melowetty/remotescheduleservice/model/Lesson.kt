@@ -1,9 +1,11 @@
 package ru.melowetty.remotescheduleservice.model
 
+import com.fasterxml.jackson.annotation.JsonFormat
 import net.fortuna.ical4j.model.component.VEvent
 import net.fortuna.ical4j.model.property.Description
 import net.fortuna.ical4j.model.property.Uid
 import net.fortuna.ical4j.util.RandomUidGenerator
+import ru.melowetty.remotescheduleservice.utils.DateUtils
 import ru.melowetty.remotescheduleservice.utils.EmojiCodes
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -12,6 +14,7 @@ import java.time.format.DateTimeFormatter
 
 data class Lesson(
     val subject: String,
+    @JsonFormat(pattern = DateUtils.DATE_PATTERN)
     val date: LocalDate,
     val startTime: String,
     val endTime: String,
@@ -21,17 +24,8 @@ data class Lesson(
     val additionalInfo: List<String>? = null,
     val lessonType: LessonType,
     val parentScheduleType: ScheduleType,
+    val isOnline: Boolean
 ) {
-    /**
-     * Returns lesson will be in online mode
-     *
-     * @return true if lesson is online else false
-     */
-    private fun isOnline(): Boolean {
-        if(places == null) return false
-        if(links?.isNotEmpty() == true) return true
-        return (places.all { it.building == null } || places.all { it.building == 0 }) && lessonType != LessonType.ENGLISH
-    }
 
     /**
      * Converts lesson object to VEvent for import in calendar
@@ -45,7 +39,7 @@ data class Lesson(
             if(additionalInfo?.isNotEmpty() == true) EmojiCodes.ATTENTION_SYMBOL else ""
         val quarterScheduleSymbol =
             if(parentScheduleType == ScheduleType.QUARTER_SCHEDULE) "*" else ""
-        val distantSymbol = if(isOnline()) EmojiCodes.DISTANT_LESSON_SYMBOL else ""
+        val distantSymbol = if(isOnline) EmojiCodes.DISTANT_LESSON_SYMBOL else ""
         val event = VEvent(startDateTime, endDateTime,
             "${additionalInfoContainingSymbol}${distantSymbol}" +
                     "${lessonType.toEventSubject(subject)}${quarterScheduleSymbol}")
@@ -53,7 +47,7 @@ data class Lesson(
         if (lecturer != null) {
             descriptionLines.add("Преподаватель: $lecturer")
         }
-        if(isOnline()) {
+        if(isOnline) {
             if (!links.isNullOrEmpty()) {
                 descriptionLines.add("Ссылка на пару: ${links[0]}")
                 if (links.size > 1) {
@@ -104,8 +98,8 @@ data class Lesson(
     }
 
     private fun getLocalDateTimeFromTimeAsString(time: String): LocalDateTime {
-        val pattern = DateTimeFormatter.ofPattern("HH:mm")
-        val localTime = LocalTime.parse(time, pattern)
+        val dividedTime = time.split(":").map { it.toInt() }
+        val localTime = LocalTime.of(dividedTime[0], dividedTime[1])
         return LocalDateTime.of(date, localTime)
     }
 }

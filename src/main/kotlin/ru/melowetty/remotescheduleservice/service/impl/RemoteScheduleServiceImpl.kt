@@ -8,7 +8,6 @@ import net.fortuna.ical4j.model.property.*
 import org.springframework.stereotype.Service
 import ru.melowetty.remotescheduleservice.service.RemoteScheduleService
 import ru.melowetty.remotescheduleservice.service.ScheduleService
-import ru.melowetty.remotescheduleservice.utils.ScheduleUtils
 import java.time.Duration
 
 @Service
@@ -19,10 +18,9 @@ class RemoteScheduleServiceImpl(
         val calendar = Calendar().withDefaults().fluentTarget
         addMetaDataToCalendar(calendar)
 
-        val schedules = scheduleService.getUserSchedules(telegramId)
-        val mergedSchedules = ScheduleUtils.mergeSchedules(schedules)
-        mergedSchedules.forEach { calendar.add(it.toVEvent()) }
-        
+        val lessons = scheduleService.getUserLessons(telegramId)
+        lessons.forEach { calendar.add(it.toVEvent()) }
+
         return calendar.toString()
     }
 
