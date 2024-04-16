@@ -7,8 +7,8 @@ import java.time.LocalDate
 data class Schedule(
     val lessons: List<Lesson>,
     @JsonFormat(pattern = DateUtils.DATE_PATTERN)
-    val weekStart: LocalDate,
+    val start: LocalDate,
     @JsonFormat(pattern = DateUtils.DATE_PATTERN)
-    val weekEnd: LocalDate,
+    val end: LocalDate,
     val scheduleType: ScheduleType,
 )

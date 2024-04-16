@@ -30,8 +30,7 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign:4.1.1")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
-    testImplementation("org.mockito:mockito-core:5.11.0")
-
+    //testImplementation("org.mockito:mockito-core:5.5.0")
 }
 
 tasks.withType<KotlinCompile> {

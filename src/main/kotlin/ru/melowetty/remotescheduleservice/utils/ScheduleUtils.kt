@@ -17,7 +17,7 @@ class ScheduleUtils {
             schedules.asSequence().map {
                 if(it.scheduleType == ScheduleType.QUARTER_SCHEDULE) unpackQuarterSchedule(it)
                 else listOf(it)
-            }.flatten().filter { it.lessons.isNotEmpty() }.groupBy { it.weekStart }.forEach { (_, groupedSchedules) ->
+            }.flatten().filter { it.lessons.isNotEmpty() }.groupBy { it.start }.forEach { (_, groupedSchedules) ->
                 val foundSchedule = groupedSchedules.maxByOrNull { it.scheduleType.priority }
                 if(foundSchedule != null) {
                     lessons.addAll(foundSchedule.lessons)
@@ -26,23 +26,23 @@ class ScheduleUtils {
             return lessons
         }
 
-        private fun unpackQuarterSchedule(schedule: Schedule): List<Schedule> {
+        fun unpackQuarterSchedule(schedule: Schedule): List<Schedule> {
             val schedules = mutableListOf<Schedule>()
             val lessons = schedule.lessons
-            var weekStart = schedule.weekStart.minusDays(schedule.weekStart.dayOfWeek.ordinal.toLong())
-            var weekEnd = weekStart.plusDays(6)
-            while (weekStart.isBefore(schedule.weekEnd)) {
+            var start = schedule.start.minusDays(schedule.start.dayOfWeek.ordinal.toLong())
+            var end = start.plusDays(6)
+            while (start.isBefore(schedule.end)) {
                 val newSchedule = schedule.copy(
-                    weekStart = weekStart,
-                    weekEnd = weekEnd,
+                    start = start,
+                    end = end,
                     lessons = lessons.filter { lesson ->
-                        lesson.date.isBefore(weekEnd) && lesson.date.isAfter(weekStart)
-                                || lesson.date == weekStart || lesson.date == weekEnd
+                        lesson.date.isBefore(end) && lesson.date.isAfter(start)
+                                || lesson.date == start || lesson.date == end
                     }
                 )
                 schedules.add(newSchedule)
-                weekStart = weekStart.plusDays(7)
-                weekEnd = weekEnd.plusDays(7)
+                start = start.plusDays(7)
+                end = end.plusDays(7)
             }
             return schedules
         }

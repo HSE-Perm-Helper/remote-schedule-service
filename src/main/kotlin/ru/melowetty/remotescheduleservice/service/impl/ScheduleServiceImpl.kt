@@ -14,7 +14,7 @@ class ScheduleServiceImpl(
     override fun getUserLessons(telegramId: Long): List<Lesson> {
         val externalSchedulesResponse = scheduleRepository.getUserSchedules(telegramId)
         val externalSchedules = externalSchedulesResponse.response
-        val schedules = externalSchedules.map { Schedule(it.lessons, it.weekStart, it.weekEnd, it.scheduleType) }
+        val schedules = externalSchedules.map { Schedule(it.lessons, it.start, it.end, it.scheduleType) }
 
         val mergedSchedules = ScheduleUtils.mergeSchedules(schedules)
         return mergedSchedules

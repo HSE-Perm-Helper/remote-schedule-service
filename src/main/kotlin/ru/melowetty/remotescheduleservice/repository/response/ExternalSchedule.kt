@@ -7,11 +7,11 @@ import ru.melowetty.remotescheduleservice.utils.DateUtils
 import java.time.LocalDate
 
 data class ExternalSchedule(
-    val weekNumber: Int?,
+    val number: Int?,
     val lessons: List<Lesson>,
     @JsonFormat(pattern = DateUtils.DATE_PATTERN)
-    val weekStart: LocalDate,
+    val start: LocalDate,
     @JsonFormat(pattern = DateUtils.DATE_PATTERN)
-    val weekEnd: LocalDate,
+    val end: LocalDate,
     val scheduleType: ScheduleType,
 )

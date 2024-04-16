@@ -59,7 +59,7 @@ data class Lesson(
                 descriptionLines.add("Место: онлайн")
             }
         } else {
-            if (places == null) {
+            if (places.isNullOrEmpty()) {
                 if(lessonType == LessonType.COMMON_MINOR) {
                     descriptionLines.add("Информацию о времени и ссылке на майнор узнайте " +
                             "подробнее в HSE App X или в системе РУЗ")
@@ -72,10 +72,8 @@ data class Lesson(
                 if (places.size > 1) {
                     descriptionLines.add("Место:")
                     places.forEach { descriptionLines.add("${it.office} - ${it.building} корпус") }
-                } else if (places.size == 1) {
-                    descriptionLines.add("Место: ${places.first().office} - ${places.first().building} корпус")
                 } else {
-                    descriptionLines.add("Место: не указано")
+                    descriptionLines.add("Место: ${places.first().office} - ${places.first().building} корпус")
                 }
             }
         }
