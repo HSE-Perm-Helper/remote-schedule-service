@@ -22,7 +22,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: Build
-        run: chmod +x gradlew ; CI=true ./gradlew clean build
+        run: chmod +x gradlew ; CI=true ./gradlew clean build --scan
       - name: Test
         run: ./gradlew check
 
