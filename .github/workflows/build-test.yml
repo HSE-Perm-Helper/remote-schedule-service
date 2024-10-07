@@ -20,9 +20,13 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
+      - name: Set up Docker
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
 
       - name: Build
-        run: chmod +x gradlew ; CI=true ./gradlew clean build --scan
+        run: chmod +x gradlew ; CI=true ./gradlew clean build
       - name: Test
         run: ./gradlew check
 
