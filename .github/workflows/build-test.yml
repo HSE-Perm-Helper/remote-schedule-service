@@ -9,6 +9,11 @@ jobs:
   build-test:
     runs-on: ubuntu-latest
 
+    services:
+      docker:
+        image: docker:20.10.9
+        options: --privileged
+
     steps:
       - uses: actions/checkout@v3
 
@@ -20,11 +25,7 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
-      - name: Set up Docker
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker-compose
-
+        
       - name: Build
         run: chmod +x gradlew ; CI=true ./gradlew clean build
       - name: Test
