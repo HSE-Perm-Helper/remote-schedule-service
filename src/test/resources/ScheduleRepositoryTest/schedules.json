@@ -1,0 +1,29 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/v3/schedules"
+  },
+  "response": {
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "status": 200,
+    "jsonBody": {
+      "error": false,
+      "response": [
+        {
+          "number": 1,
+          "start": "01.09.2024",
+          "end": "24.10.2024",
+          "scheduleType": "QUARTER_SCHEDULE"
+        },
+        {
+          "number": 6,
+          "start": "07.10.2024",
+          "end": "13.10.2024",
+          "scheduleType": "WEEK_SCHEDULE"
+        }
+      ]
+    }
+  }
+}

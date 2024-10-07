@@ -1,0 +1,43 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/v3/schedule/1?start=07.10.2024&end=13.10.2024"
+  },
+  "response": {
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "status": 200,
+    "jsonBody": {
+      "error": false,
+      "response": {
+        "number": 6,
+        "lessons": [
+          {
+            "subject": "Лидерство и управление командой",
+            "time": {
+              "date": "07.10.2024",
+              "startTime": "11:30",
+              "endTime": "12:50"
+            },
+            "lecturer": "Грабарь В.В.",
+            "places": [
+              {
+                "office": "102",
+                "building": 3
+              }
+            ],
+            "links": null,
+            "additionalInfo": null,
+            "lessonType": "LECTURE",
+            "parentScheduleType": "WEEK_SCHEDULE",
+            "isOnline": false
+          }
+        ],
+        "start": "07.10.2024",
+        "end": "13.10.2024",
+        "scheduleType": "WEEK_SCHEDULE"
+      }
+    }
+  }
+}

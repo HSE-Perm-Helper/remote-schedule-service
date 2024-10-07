@@ -15,9 +15,7 @@ import java.time.format.DateTimeFormatter
 data class Lesson(
     val subject: String,
     @JsonFormat(pattern = DateUtils.DATE_PATTERN)
-    val date: LocalDate,
-    val startTime: String,
-    val endTime: String,
+    val time: LessonTime,
     val lecturer: String?,
     val places: List<LessonPlace>? = null,
     val links: List<String>? = null,
@@ -33,16 +31,17 @@ data class Lesson(
      * @return converted lesson to VEvent object
      */
     fun toVEvent(): VEvent {
-        val startDateTime = getLocalDateTimeFromTimeAsString(startTime)
-        val endDateTime = getLocalDateTimeFromTimeAsString(endTime)
+        val startDateTime = getLocalDateTimeFromTimeAsString(time.startTime)
+        val endDateTime = getLocalDateTimeFromTimeAsString(time.endTime)
+
         val additionalInfoContainingSymbol =
             if(additionalInfo?.isNotEmpty() == true) EmojiCodes.ATTENTION_SYMBOL else ""
-        val quarterScheduleSymbol =
-            if(parentScheduleType == ScheduleType.QUARTER_SCHEDULE) "*" else ""
+
         val distantSymbol = if(isOnline) EmojiCodes.DISTANT_LESSON_SYMBOL else ""
         val event = VEvent(startDateTime, endDateTime,
             "${additionalInfoContainingSymbol}${distantSymbol}" +
-                    "${lessonType.toEventSubject(subject)}${quarterScheduleSymbol}")
+                    lessonType.toEventSubject(subject)
+        )
         val descriptionLines: MutableList<String> = mutableListOf()
         if (lecturer != null) {
             descriptionLines.add("Преподаватель: $lecturer")
@@ -98,6 +97,6 @@ data class Lesson(
     private fun getLocalDateTimeFromTimeAsString(time: String): LocalDateTime {
         val dividedTime = time.split(":").map { it.toInt() }
         val localTime = LocalTime.of(dividedTime[0], dividedTime[1])
-        return LocalDateTime.of(date, localTime)
+        return LocalDateTime.of(this.time.date, localTime)
     }
 }

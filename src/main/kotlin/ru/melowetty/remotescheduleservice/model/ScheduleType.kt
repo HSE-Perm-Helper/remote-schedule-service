@@ -1,9 +1,7 @@
 package ru.melowetty.remotescheduleservice.model
 
-enum class ScheduleType(
-    val priority: Int
-) {
-    QUARTER_SCHEDULE(0),
-    COMMON_WEEK_SCHEDULE(1),
-    SESSION_WEEK_SCHEDULE(2),
+enum class ScheduleType {
+    QUARTER_SCHEDULE,
+    WEEK_SCHEDULE,
+    SESSION_SCHEDULE,
 }
