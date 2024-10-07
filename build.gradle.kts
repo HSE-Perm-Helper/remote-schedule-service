@@ -29,6 +29,8 @@ dependencyManagement {
 extra["snippetsDir"] = file("build/generated-snippets")
 
 dependencies {
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.9.0")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -42,6 +44,7 @@ dependencies {
     testImplementation("org.mockito:mockito-core:5.5.0")
     testImplementation("org.springframework.boot:spring-boot-testcontainers:3.3.4")
     testImplementation("org.testcontainers:junit-jupiter:1.20.2")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
     implementation("org.wiremock.integrations.testcontainers:wiremock-testcontainers-module:1.0-alpha-13")
 }
 
