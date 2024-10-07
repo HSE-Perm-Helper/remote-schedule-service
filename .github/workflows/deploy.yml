@@ -1,0 +1,23 @@
+name: Deploying
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    name: Service deploying
+    runs-on: ubuntu-latest
+    steps:
+      - name: executing remote ssh commands
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.DEPLOY_SERVER_HOST }}
+          username: ${{ secrets.DEPLOY_SERVER_USER }}
+          password: ${{ secrets.DEPLOY_SERVER_PASSWORD }}
+          script: |
+            cd /projects/remote-schedule-service
+            git pull
+            docker pull melowetty/remote-schedule-service
+            docker-compose up -d
+            docker system prune --all --force
