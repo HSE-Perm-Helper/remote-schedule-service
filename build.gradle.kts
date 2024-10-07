@@ -6,6 +6,7 @@ plugins {
     id("org.asciidoctor.jvm.convert") version "3.3.2"
     kotlin("jvm") version "1.9.23"
     kotlin("plugin.spring") version "1.9.23"
+    id("jacoco")
 }
 
 group = "ru.melowetty"
@@ -65,5 +66,17 @@ tasks.test {
 
 tasks.asciidoctor {
     inputs.dir(project.extra["snippetsDir"]!!)
+    dependsOn(tasks.test)
+}
+
+tasks.jar {
+    archiveFileName.set("remote-schedule-service.jar")
+}
+
+tasks.bootJar {
+    archiveFileName.set("remote-schedule-service-standalone.jar")
+}
+
+tasks.jacocoTestReport {
     dependsOn(tasks.test)
 }
