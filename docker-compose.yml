@@ -9,3 +9,6 @@ services:
     restart: always
     networks:
       - service-discovery_internal
+networks:
+  service-discovery_internal:
+    external: true
