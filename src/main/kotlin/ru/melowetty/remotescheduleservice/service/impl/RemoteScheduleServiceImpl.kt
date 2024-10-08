@@ -68,5 +68,6 @@ class RemoteScheduleServiceImpl(
         calendar.add(XProperty("X-APPLE-CALENDAR-COLOR", "#0047BB"))
 
         calendar.add(RefreshInterval(ParameterList(listOf(Value.DURATION)), Duration.ofHours(1)))
+        calendar.add(XProperty("X-PUBLISHED-TTL", Duration.ofHours(1).toString()))
     }
 }
