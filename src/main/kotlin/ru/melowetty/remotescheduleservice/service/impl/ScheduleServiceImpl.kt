@@ -1,22 +1,32 @@
 package ru.melowetty.remotescheduleservice.service.impl
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.runBlocking
 import org.springframework.stereotype.Service
 import ru.melowetty.remotescheduleservice.model.Lesson
-import ru.melowetty.remotescheduleservice.model.Schedule
 import ru.melowetty.remotescheduleservice.repository.ScheduleRepository
 import ru.melowetty.remotescheduleservice.service.ScheduleService
-import ru.melowetty.remotescheduleservice.utils.ScheduleUtils
 
 @Service
 class ScheduleServiceImpl(
     private val scheduleRepository: ScheduleRepository
 ): ScheduleService {
     override fun getUserLessons(telegramId: Long): List<Lesson> {
-        val externalSchedulesResponse = scheduleRepository.getUserSchedules(telegramId)
-        val externalSchedules = externalSchedulesResponse.response
-        val schedules = externalSchedules.map { Schedule(it.lessons, it.start, it.end, it.scheduleType) }
+        val availableSchedules = scheduleRepository.getAvailableSchedules().response
 
-        val mergedSchedules = ScheduleUtils.mergeSchedules(schedules)
-        return mergedSchedules
+        val deferredSchedules = availableSchedules.map { scheduleInfo ->
+            CoroutineScope(Dispatchers.IO).async {
+                scheduleRepository.getUserSchedule(telegramId, scheduleInfo.start, scheduleInfo.end).response
+            }
+        }
+
+        val schedules = runBlocking {
+            deferredSchedules.awaitAll()
+        }
+
+        return schedules.map { it.lessons }.flatten()
     }
 }

@@ -10,7 +10,7 @@ import ru.melowetty.remotescheduleservice.repository.response.ExternalSchedule
 import ru.melowetty.remotescheduleservice.repository.response.ExternalScheduleInfo
 import ru.melowetty.remotescheduleservice.repository.response.Response
 
-@FeignClient("schedule-service", url="\${api.schedule-service.url:}")
+@FeignClient("main-backend", url="\${api.schedule-service.url:}")
 interface ScheduleRepository {
     @GetMapping("v3/schedule/{telegramId}")
     fun getUserSchedule(@PathVariable("telegramId") telegramId: Long,

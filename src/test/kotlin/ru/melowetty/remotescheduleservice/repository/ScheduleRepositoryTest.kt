@@ -1,6 +1,7 @@
 package ru.melowetty.remotescheduleservice.repository
 
 import java.time.LocalDate
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -28,57 +29,61 @@ class ScheduleRepositoryTest {
 
     @Test
     fun getSchedulesInfo_returnsSchedulesInfo() {
-        val actual: List<ExternalScheduleInfo> = scheduleRepository.getAvailableSchedules().response
+        runBlocking {
+            val actual: List<ExternalScheduleInfo> = scheduleRepository.getAvailableSchedules().response
 
-        val expected = listOf(
-            ExternalScheduleInfo(
-                number = 1,
-                start = LocalDate.of(2024, 9, 1),
-                end = LocalDate.of(2024, 10, 24),
-                scheduleType = ScheduleType.QUARTER_SCHEDULE
-            ),
-            ExternalScheduleInfo(
-                number = 6,
-                start = LocalDate.of(2024, 10, 7),
-                end = LocalDate.of(2024, 10, 13),
-                scheduleType = ScheduleType.WEEK_SCHEDULE
+            val expected = listOf(
+                ExternalScheduleInfo(
+                    number = 1,
+                    start = LocalDate.of(2024, 9, 1),
+                    end = LocalDate.of(2024, 10, 24),
+                    scheduleType = ScheduleType.QUARTER_SCHEDULE
+                ),
+                ExternalScheduleInfo(
+                    number = 6,
+                    start = LocalDate.of(2024, 10, 7),
+                    end = LocalDate.of(2024, 10, 13),
+                    scheduleType = ScheduleType.WEEK_SCHEDULE
+                )
             )
-        )
 
-        Assertions.assertEquals(expected, actual)
+            Assertions.assertEquals(expected, actual)
+        }
     }
 
     @Test
     fun getWeekSchedule_returnsWeekSchedule() {
-        val actual: ExternalSchedule = scheduleRepository
-            .getUserSchedule(1, LocalDate.of(2024, 10, 7), LocalDate.of(2024, 10, 13))
-            .response
+        runBlocking {
+            val actual: ExternalSchedule = scheduleRepository
+                .getUserSchedule(1, LocalDate.of(2024, 10, 7), LocalDate.of(2024, 10, 13))
+                .response
 
-        val expected = ExternalSchedule(
-            number = 6,
-            start = LocalDate.of(2024, 10, 7),
-            end = LocalDate.of(2024, 10, 13),
-            scheduleType = ScheduleType.WEEK_SCHEDULE,
-            lessons = listOf(
-                Lesson(
-                    subject = "Лидерство и управление командой",
-                    time = LessonTime(
-                        date = LocalDate.of(2024, 10, 7),
-                        startTime = "11:30",
-                        endTime = "12:50"
-                    ),
-                    lecturer = "Грабарь В.В.",
-                    places = listOf(
-                        LessonPlace(office = "102", building = 3)
-                    ),
-                    lessonType = LessonType.LECTURE,
-                    parentScheduleType = ScheduleType.WEEK_SCHEDULE,
-                    isOnline = false,
+            val expected = ExternalSchedule(
+                number = 6,
+                start = LocalDate.of(2024, 10, 7),
+                end = LocalDate.of(2024, 10, 13),
+                scheduleType = ScheduleType.WEEK_SCHEDULE,
+                lessons = listOf(
+                    Lesson(
+                        subject = "Лидерство и управление командой",
+                        time = LessonTime(
+                            date = LocalDate.of(2024, 10, 7),
+                            startTime = "11:30",
+                            endTime = "12:50"
+                        ),
+                        lecturer = "Грабарь В.В.",
+                        places = listOf(
+                            LessonPlace(office = "102", building = 3)
+                        ),
+                        lessonType = LessonType.LECTURE,
+                        parentScheduleType = ScheduleType.WEEK_SCHEDULE,
+                        isOnline = false,
+                    )
                 )
             )
-        )
 
-        Assertions.assertEquals(expected, actual)
+            Assertions.assertEquals(expected, actual)
+        }
     }
 
     companion object {
