@@ -57,26 +57,40 @@ class ScheduleServiceTest {
         )
 
         `when`(scheduleRepository.getAvailableSchedules())
-            .thenReturn(Response(false, listOf(ExternalScheduleInfo(1, LocalDate.of(2024, 10, 7),
-                LocalDate.of(2024, 10, 13), scheduleType = ScheduleType.WEEK_SCHEDULE),
-                ExternalScheduleInfo(number = 1,
-                    start = LocalDate.of(2024, 9,2),
-                    end = LocalDate.of(2024, 10, 24),
-                    scheduleType = ScheduleType.QUARTER_SCHEDULE)
-            )))
+            .thenReturn(
+                Response(
+                    false, listOf(
+                        ExternalScheduleInfo(
+                            1, LocalDate.of(2024, 10, 7),
+                            LocalDate.of(2024, 10, 13), scheduleType = ScheduleType.WEEK_SCHEDULE
+                        ),
+                        ExternalScheduleInfo(
+                            number = 1,
+                            start = LocalDate.of(2024, 9, 2),
+                            end = LocalDate.of(2024, 10, 24),
+                            scheduleType = ScheduleType.QUARTER_SCHEDULE
+                        )
+                    )
+                )
+            )
 
-        `when`(scheduleRepository.getUserSchedule(eq(123L),
-            eq(LocalDate.of(2024, 10, 7)),
-            eq(LocalDate.of(2024, 10, 13))
-        ))
+        `when`(
+            scheduleRepository.getUserSchedule(
+                eq(123L),
+                eq(LocalDate.of(2024, 10, 7)),
+                eq(LocalDate.of(2024, 10, 13))
+            )
+        )
             .thenReturn(Response(false, schedule))
 
         val actual = scheduleService.getUserLessons(123)
         val expected = schedule.lessons
 
-        verify(scheduleRepository, never()).getUserSchedule(eq(123L),
+        verify(scheduleRepository, never()).getUserSchedule(
+            eq(123L),
             eq(LocalDate.of(2024, 9, 2)),
-            eq(LocalDate.of(2024, 10, 24)))
+            eq(LocalDate.of(2024, 10, 24))
+        )
 
         Assertions.assertEquals(expected, actual)
     }

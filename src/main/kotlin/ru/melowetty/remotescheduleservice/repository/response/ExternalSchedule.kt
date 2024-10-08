@@ -1,10 +1,10 @@
 package ru.melowetty.remotescheduleservice.repository.response
 
 import com.fasterxml.jackson.annotation.JsonFormat
+import java.time.LocalDate
 import ru.melowetty.remotescheduleservice.model.Lesson
 import ru.melowetty.remotescheduleservice.model.ScheduleType
 import ru.melowetty.remotescheduleservice.utils.DateUtils
-import java.time.LocalDate
 
 data class ExternalSchedule(
     val number: Int?,

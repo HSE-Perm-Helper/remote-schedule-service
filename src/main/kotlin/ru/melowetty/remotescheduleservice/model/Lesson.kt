@@ -1,16 +1,14 @@
 package ru.melowetty.remotescheduleservice.model
 
 import com.fasterxml.jackson.annotation.JsonFormat
+import java.time.LocalDateTime
+import java.time.LocalTime
 import net.fortuna.ical4j.model.component.VEvent
 import net.fortuna.ical4j.model.property.Description
 import net.fortuna.ical4j.model.property.Uid
 import net.fortuna.ical4j.util.RandomUidGenerator
 import ru.melowetty.remotescheduleservice.utils.DateUtils
 import ru.melowetty.remotescheduleservice.utils.EmojiCodes
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 
 data class Lesson(
     val subject: String,
@@ -35,10 +33,11 @@ data class Lesson(
         val endDateTime = getLocalDateTimeFromTimeAsString(time.endTime)
 
         val additionalInfoContainingSymbol =
-            if(additionalInfo?.isNotEmpty() == true) EmojiCodes.ATTENTION_SYMBOL else ""
+            if (additionalInfo?.isNotEmpty() == true) EmojiCodes.ATTENTION_SYMBOL else ""
 
-        val distantSymbol = if(isOnline) EmojiCodes.DISTANT_LESSON_SYMBOL else ""
-        val event = VEvent(startDateTime, endDateTime,
+        val distantSymbol = if (isOnline) EmojiCodes.DISTANT_LESSON_SYMBOL else ""
+        val event = VEvent(
+            startDateTime, endDateTime,
             "${additionalInfoContainingSymbol}${distantSymbol}" +
                     lessonType.toEventSubject(subject)
         )
@@ -46,28 +45,27 @@ data class Lesson(
         if (lecturer != null) {
             descriptionLines.add("Преподаватель: $lecturer")
         }
-        if(isOnline) {
+        if (isOnline) {
             if (!links.isNullOrEmpty()) {
                 descriptionLines.add("Ссылка на пару: ${links[0]}")
                 if (links.size > 1) {
                     descriptionLines.add("Дополнительные ссылки на пару: ")
                     links.subList(1, links.size).forEach { descriptionLines.add(it) }
                 }
-            }
-            else {
+            } else {
                 descriptionLines.add("Место: онлайн")
             }
         } else {
             if (places.isNullOrEmpty()) {
-                if(lessonType == LessonType.COMMON_MINOR) {
-                    descriptionLines.add("Информацию о времени и ссылке на майнор узнайте " +
-                            "подробнее в HSE App X или в системе РУЗ")
-                }
-                else {
+                if (lessonType == LessonType.COMMON_MINOR) {
+                    descriptionLines.add(
+                        "Информацию о времени и ссылке на майнор узнайте " +
+                                "подробнее в HSE App X или в системе РУЗ"
+                    )
+                } else {
                     descriptionLines.add("Место: не указано")
                 }
-            }
-            else {
+            } else {
                 if (places.size > 1) {
                     descriptionLines.add("Место:")
                     places.forEach { descriptionLines.add("${it.office} - ${it.building} корпус") }
@@ -77,13 +75,17 @@ data class Lesson(
             }
         }
         if (additionalInfo?.isNotEmpty() == true) {
-            descriptionLines.add("\n" +
-                    "Дополнительная информация: ${additionalInfo.joinToString("\n")}")
+            descriptionLines.add(
+                "\n" +
+                        "Дополнительная информация: ${additionalInfo.joinToString("\n")}"
+            )
         }
-        if(parentScheduleType == ScheduleType.QUARTER_SCHEDULE) {
-            descriptionLines.add("\n" +
-                    "* - пара взята из расписания на модуль, фактическое расписание " +
-                    "может отличаться от этого")
+        if (parentScheduleType == ScheduleType.QUARTER_SCHEDULE) {
+            descriptionLines.add(
+                "\n" +
+                        "* - пара взята из расписания на модуль, фактическое расписание " +
+                        "может отличаться от этого"
+            )
         }
         event.add(Uid(RandomUidGenerator().generateUid().value))
         event.add(

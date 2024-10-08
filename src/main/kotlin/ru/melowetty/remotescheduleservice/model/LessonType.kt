@@ -17,6 +17,7 @@ enum class LessonType(val type: String, private val scheduleFilePattern: String)
     AED("ДОЦ", "{subject}"),
     CONSULT("Консультация", "{subject}"),
     EVENT("Мероприятие", "{type}: {subject}");
+
     fun toEventSubject(subject: String): String {
         return scheduleFilePattern
             .replace("{type}", type)
