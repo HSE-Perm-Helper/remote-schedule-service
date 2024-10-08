@@ -9,25 +9,21 @@ jobs:
   build-test:
     runs-on: ubuntu-latest
 
-    services:
-      docker:
-        image: docker:20.10.9
-        options: --privileged
-
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         uses: actions/setup-java@v3
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'temurin'
 
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582
         
       - name: Build
-        run: chmod +x gradlew ; CI=true ./gradlew clean build
+        run: ./gradlew build
+        
       - name: Test
         run: ./gradlew check
 
