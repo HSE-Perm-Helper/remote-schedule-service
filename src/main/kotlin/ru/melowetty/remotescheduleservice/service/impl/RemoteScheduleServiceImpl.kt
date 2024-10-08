@@ -1,19 +1,25 @@
 package ru.melowetty.remotescheduleservice.service.impl
 
+import java.time.Duration
 import net.fortuna.ical4j.model.Calendar
 import net.fortuna.ical4j.model.ParameterList
 import net.fortuna.ical4j.model.TimeZoneRegistryFactory
 import net.fortuna.ical4j.model.parameter.Value
-import net.fortuna.ical4j.model.property.*
+import net.fortuna.ical4j.model.property.Color
+import net.fortuna.ical4j.model.property.Description
+import net.fortuna.ical4j.model.property.Method
+import net.fortuna.ical4j.model.property.Name
+import net.fortuna.ical4j.model.property.ProdId
+import net.fortuna.ical4j.model.property.RefreshInterval
+import net.fortuna.ical4j.model.property.XProperty
 import org.springframework.stereotype.Service
 import ru.melowetty.remotescheduleservice.service.RemoteScheduleService
 import ru.melowetty.remotescheduleservice.service.ScheduleService
-import java.time.Duration
 
 @Service
 class RemoteScheduleServiceImpl(
     private val scheduleService: ScheduleService,
-): RemoteScheduleService {
+) : RemoteScheduleService {
     override fun getRemoteScheduleAsText(telegramId: Long): String {
         val calendar = Calendar().withDefaults().fluentTarget
         addMetaDataToCalendar(calendar)
@@ -62,5 +68,6 @@ class RemoteScheduleServiceImpl(
         calendar.add(XProperty("X-APPLE-CALENDAR-COLOR", "#0047BB"))
 
         calendar.add(RefreshInterval(ParameterList(listOf(Value.DURATION)), Duration.ofHours(1)))
+        calendar.add(XProperty("X-PUBLISHED-TTL", Duration.ofHours(1).toString()))
     }
 }

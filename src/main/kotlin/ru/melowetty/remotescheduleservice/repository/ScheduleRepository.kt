@@ -10,12 +10,13 @@ import ru.melowetty.remotescheduleservice.repository.response.ExternalSchedule
 import ru.melowetty.remotescheduleservice.repository.response.ExternalScheduleInfo
 import ru.melowetty.remotescheduleservice.repository.response.Response
 
-@FeignClient("main-backend", url="\${api.schedule-service.url:}")
+@FeignClient("main-backend", url = "\${api.schedule-service.url:}")
 interface ScheduleRepository {
     @GetMapping("v3/schedule/{telegramId}")
-    fun getUserSchedule(@PathVariable("telegramId") telegramId: Long,
-                         @RequestParam("start") @DateTimeFormat(pattern = "dd.MM.yyyy") start: LocalDate,
-                         @RequestParam("end") @DateTimeFormat(pattern = "dd.MM.yyyy") end: LocalDate,
+    fun getUserSchedule(
+        @PathVariable("telegramId") telegramId: Long,
+        @RequestParam("start") @DateTimeFormat(pattern = "dd.MM.yyyy") start: LocalDate,
+        @RequestParam("end") @DateTimeFormat(pattern = "dd.MM.yyyy") end: LocalDate,
     ): Response<ExternalSchedule>
 
     @GetMapping("v3/schedules")

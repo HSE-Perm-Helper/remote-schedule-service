@@ -14,7 +14,7 @@ import ru.melowetty.remotescheduleservice.service.ScheduleService
 @Service
 class ScheduleServiceImpl(
     private val scheduleRepository: ScheduleRepository
-): ScheduleService {
+) : ScheduleService {
     override fun getUserLessons(telegramId: Long): List<Lesson> {
         val availableSchedules = scheduleRepository.getAvailableSchedules().response.filter {
             it.scheduleType != ScheduleType.QUARTER_SCHEDULE

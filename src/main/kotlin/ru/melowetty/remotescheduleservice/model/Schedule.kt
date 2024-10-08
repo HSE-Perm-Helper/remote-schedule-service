@@ -1,8 +1,8 @@
 package ru.melowetty.remotescheduleservice.model
 
 import com.fasterxml.jackson.annotation.JsonFormat
-import ru.melowetty.remotescheduleservice.utils.DateUtils
 import java.time.LocalDate
+import ru.melowetty.remotescheduleservice.utils.DateUtils
 
 data class Schedule(
     val lessons: List<Lesson>,
