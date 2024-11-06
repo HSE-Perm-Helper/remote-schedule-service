@@ -27,7 +27,7 @@ class RemoteScheduleServiceImpl(
     private val tokenService: CalendarTokenService
 ) : RemoteScheduleService {
     override fun getRemoteScheduleAsText(telegramId: Long, token: String): String {
-        if (tokenService.verifyToken(telegramId, token)) {
+        if (!tokenService.verifyToken(telegramId, token)) {
             throw CalendarAccessBadTokenException("Недостаточно прав для просмотра этого календаря")
         }
 
