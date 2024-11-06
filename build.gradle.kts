@@ -7,6 +7,7 @@ plugins {
     kotlin("jvm") version "1.9.23"
     kotlin("plugin.spring") version "1.9.23"
     id("jacoco")
+    kotlin("plugin.jpa") version "1.9.25"
 }
 
 group = "ru.melowetty"
@@ -40,6 +41,8 @@ dependencies {
     /* [Calendar File Module] */
     implementation("org.mnode.ical4j:ical4j:4.0.0-beta9")
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign:4.1.1")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.liquibase:liquibase-core")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
     testImplementation("org.mockito:mockito-core:5.5.0")
@@ -47,6 +50,8 @@ dependencies {
     testImplementation("org.testcontainers:junit-jupiter:1.20.2")
     testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
     implementation("org.wiremock.integrations.testcontainers:wiremock-testcontainers-module:1.0-alpha-13")
+    testImplementation("org.testcontainers:postgresql")
+    runtimeOnly("org.postgresql:postgresql")
 }
 
 tasks.withType<KotlinCompile> {

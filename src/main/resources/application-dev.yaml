@@ -1,0 +1,14 @@
+eureka:
+  client:
+    enabled: false
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/remote-schedule-service
+    username: root
+    password: root
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
