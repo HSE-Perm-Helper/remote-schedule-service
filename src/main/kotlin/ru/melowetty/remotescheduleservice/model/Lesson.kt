@@ -3,18 +3,23 @@ package ru.melowetty.remotescheduleservice.model
 import com.fasterxml.jackson.annotation.JsonFormat
 import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.util.UUID
 import net.fortuna.ical4j.model.component.VEvent
 import net.fortuna.ical4j.model.property.Description
 import net.fortuna.ical4j.model.property.Uid
 import net.fortuna.ical4j.util.RandomUidGenerator
 import ru.melowetty.remotescheduleservice.utils.DateUtils
 import ru.melowetty.remotescheduleservice.utils.EmojiCodes
+import ru.melowetty.remotescheduleservice.utils.UuidUtils
 
 data class Lesson(
     val subject: String,
     @JsonFormat(pattern = DateUtils.DATE_PATTERN)
     val time: LessonTime,
     val lecturer: String?,
+    val subGroup: Int? = null,
     val places: List<LessonPlace>? = null,
     val links: List<String>? = null,
     val additionalInfo: List<String>? = null,
@@ -28,7 +33,7 @@ data class Lesson(
      *
      * @return converted lesson to VEvent object
      */
-    fun toVEvent(): VEvent {
+    fun toVEvent(currentDateTime: LocalDateTime): VEvent {
         val startDateTime = getLocalDateTimeFromTimeAsString(time.startTime)
         val endDateTime = getLocalDateTimeFromTimeAsString(time.endTime)
 
@@ -42,9 +47,15 @@ data class Lesson(
                     lessonType.toEventSubject(subject)
         )
         val descriptionLines: MutableList<String> = mutableListOf()
+
+        if (subGroup != null) {
+            descriptionLines.add("$subGroup подгруппа")
+        }
+
         if (lecturer != null) {
             descriptionLines.add("Преподаватель: $lecturer")
         }
+
         if (isOnline) {
             if (!links.isNullOrEmpty()) {
                 descriptionLines.add("Ссылка на пару: ${links[0]}")
@@ -55,6 +66,7 @@ data class Lesson(
             } else {
                 descriptionLines.add("Место: онлайн")
             }
+
         } else {
             if (places.isNullOrEmpty()) {
                 if (lessonType == LessonType.COMMON_MINOR) {
@@ -65,6 +77,7 @@ data class Lesson(
                 } else {
                     descriptionLines.add("Место: не указано")
                 }
+
             } else {
                 if (places.size > 1) {
                     descriptionLines.add("Место:")
@@ -74,20 +87,20 @@ data class Lesson(
                 }
             }
         }
+
         if (additionalInfo?.isNotEmpty() == true) {
             descriptionLines.add(
                 "\n" +
                         "Дополнительная информация: ${additionalInfo.joinToString("\n")}"
             )
         }
-        if (parentScheduleType == ScheduleType.QUARTER_SCHEDULE) {
-            descriptionLines.add(
-                "\n" +
-                        "* - пара взята из расписания на модуль, фактическое расписание " +
-                        "может отличаться от этого"
-            )
-        }
-        event.add(Uid(RandomUidGenerator().generateUid().value))
+
+
+        descriptionLines.add("\n" +
+                "Дата обновления: ${currentDateTime.format(DateTimeFormatter.ofPattern(DateUtils.DATE_TIME_PATTERN))}")
+
+        val id = UuidUtils.generateUUIDbySeed(hashCode().toString())
+        event.add(Uid(id.toString()))
         event.add(
             Description(
                 descriptionLines.joinToString("\n")

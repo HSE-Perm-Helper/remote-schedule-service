@@ -1,6 +1,8 @@
 package ru.melowetty.remotescheduleservice.service.impl
 
 import java.time.Duration
+import java.time.LocalDateTime
+import java.time.ZoneId
 import net.fortuna.ical4j.model.Calendar
 import net.fortuna.ical4j.model.ParameterList
 import net.fortuna.ical4j.model.TimeZoneRegistryFactory
@@ -24,8 +26,9 @@ class RemoteScheduleServiceImpl(
         val calendar = Calendar().withDefaults().fluentTarget
         addMetaDataToCalendar(calendar)
 
+        val currentDateTime = LocalDateTime.now(ZoneId.of("Asia/Yekaterinburg"))
         val lessons = scheduleService.getUserLessons(telegramId)
-        lessons.forEach { calendar.add(it.toVEvent()) }
+        lessons.forEach { calendar.add(it.toVEvent(currentDateTime)) }
 
         return calendar.toString()
     }
