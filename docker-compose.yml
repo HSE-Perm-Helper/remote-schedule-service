@@ -6,6 +6,7 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=$ACTIVE_PROFILE
       - EUREKA_CLIENT_SERVICE-URL_DEFAULTZONE=http://$SERVICE_DISCOVERY_USER:$SERVICE_DISCOVERY_PASSWORD@$SERVICE_DISCOVERY_HOST:$SERVICE_DISCOVERY_PORT/eureka
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresdb:$POSTGRESDB_DOCKER_PORT/$DB_NAME
     restart: always
     networks:
       - service-discovery_internal
