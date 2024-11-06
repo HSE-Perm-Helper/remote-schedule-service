@@ -18,7 +18,7 @@ import ru.melowetty.remotescheduleservice.entity.CalendarTokenEntity
     ]
 )
 @Testcontainers
-@ActiveProfiles("test")
+@ActiveProfiles("test-with-db")
 class CalendarTokenRepositoryTest {
     @Autowired
     private lateinit var repository: CalendarTokenRepository

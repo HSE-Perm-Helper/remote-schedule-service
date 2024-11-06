@@ -1,11 +1,13 @@
 package ru.melowetty.remotescheduleservice.repository
 
 import java.time.LocalDate
+import javax.sql.DataSource
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
@@ -20,12 +22,16 @@ import ru.melowetty.remotescheduleservice.model.ScheduleType
 import ru.melowetty.remotescheduleservice.repository.response.ExternalSchedule
 import ru.melowetty.remotescheduleservice.repository.response.ExternalScheduleInfo
 
-@SpringBootTest
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @Testcontainers
 @ActiveProfiles("test")
 class ScheduleRepositoryTest {
     @Autowired
     private lateinit var scheduleRepository: ScheduleRepository
+
+    @MockBean
+    private lateinit var dataSource: DataSource
 
     @Test
     fun getSchedulesInfo_returnsSchedulesInfo() {
@@ -97,6 +103,7 @@ class ScheduleRepositoryTest {
         @JvmStatic
         fun properties(registry: DynamicPropertyRegistry) {
             registry.add("api.schedule-service.url") { wireMock.getUrl("") }
+            registry.add("spring.datasource.url") { "" }
         }
 
     }
