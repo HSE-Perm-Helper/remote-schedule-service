@@ -14,15 +14,23 @@ import net.fortuna.ical4j.model.property.Name
 import net.fortuna.ical4j.model.property.ProdId
 import net.fortuna.ical4j.model.property.RefreshInterval
 import net.fortuna.ical4j.model.property.XProperty
+import org.springframework.dao.PermissionDeniedDataAccessException
 import org.springframework.stereotype.Service
+import ru.melowetty.remotescheduleservice.exception.CalendarAccessBadTokenException
+import ru.melowetty.remotescheduleservice.service.CalendarTokenService
 import ru.melowetty.remotescheduleservice.service.RemoteScheduleService
 import ru.melowetty.remotescheduleservice.service.ScheduleService
 
 @Service
 class RemoteScheduleServiceImpl(
     private val scheduleService: ScheduleService,
+    private val tokenService: CalendarTokenService
 ) : RemoteScheduleService {
-    override fun getRemoteScheduleAsText(telegramId: Long): String {
+    override fun getRemoteScheduleAsText(telegramId: Long, token: String): String {
+        if (tokenService.verifyToken(telegramId, token)) {
+            throw CalendarAccessBadTokenException("Недостаточно прав для просмотра этого календаря")
+        }
+
         val calendar = Calendar().withDefaults().fluentTarget
         addMetaDataToCalendar(calendar)
 
