@@ -1,6 +1,7 @@
 package ru.melowetty.remotescheduleservice.repository
 
 import java.time.LocalDateTime
+import java.time.ZoneOffset
 import kotlin.jvm.optionals.getOrNull
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
@@ -69,7 +70,7 @@ class CalendarTokenRepositoryTest {
 
     @Test
     fun `save with last fetch field`() {
-        val time = LocalDateTime.now()
+        val time = LocalDateTime.now(ZoneOffset.UTC)
         val token = CalendarTokenEntity(telegramId = 123, "secret", time)
 
         repository.save(token)
@@ -78,7 +79,7 @@ class CalendarTokenRepositoryTest {
         Assertions.assertNotNull(actual)
 
         val actualToken = actual.get()
-        
+
         Assertions.assertEquals(actualToken, token)
     }
 }

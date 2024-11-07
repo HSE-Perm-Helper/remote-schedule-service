@@ -36,15 +36,11 @@ class CalendarTokenServiceTest {
         doReturn("secret")
             .`when`(tokenService).generateToken()
 
-        val time = LocalDateTime.now()
-        doReturn(time)
-            .`when`(tokenService).getCurrentTime()
-
         val actual = tokenService.createOrUpdateToken(telegramId)
 
         Mockito.verify(tokenRepository, times(1)).save(eq(
             CalendarTokenEntity(
-                telegramId, "secret", time
+                telegramId, "secret", null
             )
         ))
 
