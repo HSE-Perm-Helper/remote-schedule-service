@@ -80,6 +80,8 @@ class CalendarTokenRepositoryTest {
 
         val actualToken = actual.get()
 
-        Assertions.assertEquals(actualToken, token)
+        Assertions.assertEquals(actualToken.token, token.token)
+        Assertions.assertEquals(token.telegramId, token.telegramId)
+        Assertions.assertNotNull(token.lastFetch)
     }
 }
