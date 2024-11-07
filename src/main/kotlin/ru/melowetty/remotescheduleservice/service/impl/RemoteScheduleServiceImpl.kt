@@ -3,6 +3,9 @@ package ru.melowetty.remotescheduleservice.service.impl
 import java.time.Duration
 import java.time.LocalDateTime
 import java.time.ZoneId
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.invoke
+import kotlinx.coroutines.runBlocking
 import net.fortuna.ical4j.model.Calendar
 import net.fortuna.ical4j.model.ParameterList
 import net.fortuna.ical4j.model.TimeZoneRegistryFactory
@@ -29,6 +32,12 @@ class RemoteScheduleServiceImpl(
     override fun getRemoteScheduleAsText(telegramId: Long, token: String): String {
         if (!tokenService.verifyToken(telegramId, token)) {
             throw CalendarAccessBadTokenException("Недостаточно прав для просмотра этого календаря")
+        }
+
+        runBlocking {
+            Dispatchers.IO {
+                tokenService.markTokenAsUsed(telegramId)
+            }
         }
 
         val calendar = Calendar().withDefaults().fluentTarget

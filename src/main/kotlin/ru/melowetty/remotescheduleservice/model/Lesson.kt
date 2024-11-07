@@ -97,7 +97,7 @@ data class Lesson(
 
 
         descriptionLines.add("\n" +
-                "Дата обновления: ${currentDateTime.format(DateTimeFormatter.ofPattern(DateUtils.DATE_TIME_PATTERN))}")
+                "Последнее изменение: ${currentDateTime.format(DateTimeFormatter.ofPattern(DateUtils.DATE_TIME_PATTERN))}")
 
         val id = UuidUtils.generateUUIDbySeed(hashCode().toString())
         event.add(Uid(id.toString()))

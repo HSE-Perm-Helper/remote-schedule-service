@@ -15,5 +15,5 @@ data class CalendarTokenEntity(
     @Column(length = 64, nullable = false)
     val token: String,
 
-    val lastFetch: LocalDateTime
+    val lastFetch: LocalDateTime?
 )
