@@ -1,5 +1,7 @@
 package ru.melowetty.remotescheduleservice.service
 
+import java.time.LocalDateTime
+import kotlin.jvm.optionals.getOrNull
 import org.apache.commons.lang3.RandomStringUtils
 import org.springframework.stereotype.Service
 import ru.melowetty.remotescheduleservice.entity.CalendarTokenEntity
@@ -18,7 +20,7 @@ class CalendarTokenService(
     fun createOrUpdateToken(telegramId: Long): String {
         val generatedToken = generateToken()
         val currentTokenEntity = calendarTokenRepository.findById(telegramId).orElseGet {
-            CalendarTokenEntity(telegramId, generatedToken)
+            CalendarTokenEntity(telegramId, generatedToken, null)
         }
 
         calendarTokenRepository.save(currentTokenEntity.copy(
@@ -37,5 +39,16 @@ class CalendarTokenService(
 
     fun generateToken(): String {
         return RandomStringUtils.randomAlphanumeric(64)
+    }
+
+    fun getCurrentTime(): LocalDateTime {
+        return LocalDateTime.now()
+    }
+
+    fun markTokenAsUsed(telegramId: Long) {
+        val tokenEntity = calendarTokenRepository.findById(telegramId).getOrNull()
+            ?: return
+
+        calendarTokenRepository.save(tokenEntity.copy(lastFetch = getCurrentTime()))
     }
 }
