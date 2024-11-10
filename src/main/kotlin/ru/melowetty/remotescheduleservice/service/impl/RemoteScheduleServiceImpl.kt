@@ -1,28 +1,40 @@
 package ru.melowetty.remotescheduleservice.service.impl
 
+import java.net.URI
 import java.time.Duration
 import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.invoke
 import kotlinx.coroutines.runBlocking
 import net.fortuna.ical4j.model.Calendar
 import net.fortuna.ical4j.model.ParameterList
 import net.fortuna.ical4j.model.TimeZoneRegistryFactory
+import net.fortuna.ical4j.model.component.VEvent
 import net.fortuna.ical4j.model.parameter.Value
 import net.fortuna.ical4j.model.property.Color
 import net.fortuna.ical4j.model.property.Description
+import net.fortuna.ical4j.model.property.Location
 import net.fortuna.ical4j.model.property.Method
 import net.fortuna.ical4j.model.property.Name
 import net.fortuna.ical4j.model.property.ProdId
 import net.fortuna.ical4j.model.property.RefreshInterval
+import net.fortuna.ical4j.model.property.Uid
+import net.fortuna.ical4j.model.property.Url
 import net.fortuna.ical4j.model.property.XProperty
 import org.springframework.dao.PermissionDeniedDataAccessException
 import org.springframework.stereotype.Service
 import ru.melowetty.remotescheduleservice.exception.CalendarAccessBadTokenException
+import ru.melowetty.remotescheduleservice.extension.LessonExtensions.Companion.toVEvent
+import ru.melowetty.remotescheduleservice.model.LessonType
 import ru.melowetty.remotescheduleservice.service.CalendarTokenService
 import ru.melowetty.remotescheduleservice.service.RemoteScheduleService
 import ru.melowetty.remotescheduleservice.service.ScheduleService
+import ru.melowetty.remotescheduleservice.utils.DateUtils
+import ru.melowetty.remotescheduleservice.utils.EmojiCodes
+import ru.melowetty.remotescheduleservice.utils.UuidUtils
 
 @Service
 class RemoteScheduleServiceImpl(
