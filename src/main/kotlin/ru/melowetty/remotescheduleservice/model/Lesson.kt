@@ -41,9 +41,13 @@ data class Lesson(
             if (additionalInfo?.isNotEmpty() == true) EmojiCodes.ATTENTION_SYMBOL else ""
 
         val distantSymbol = if (isOnline) EmojiCodes.DISTANT_LESSON_SYMBOL else ""
+
+        val emojiPrefix = if (additionalInfoContainingSymbol.isNotEmpty() or distantSymbol.isNotEmpty())
+            "${additionalInfoContainingSymbol}${distantSymbol} " else ""
+
         val event = VEvent(
             startDateTime, endDateTime,
-            "${additionalInfoContainingSymbol}${distantSymbol} " +
+            emojiPrefix +
                     lessonType.toEventSubject(subject)
         )
         val descriptionLines: MutableList<String> = mutableListOf()
