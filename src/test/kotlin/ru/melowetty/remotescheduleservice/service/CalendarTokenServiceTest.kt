@@ -1,7 +1,5 @@
 package ru.melowetty.remotescheduleservice.service
 
-import java.time.LocalDate
-import java.time.LocalDateTime
 import java.util.Optional
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -38,11 +36,13 @@ class CalendarTokenServiceTest {
 
         val actual = tokenService.createOrUpdateToken(telegramId)
 
-        Mockito.verify(tokenRepository, times(1)).save(eq(
-            CalendarTokenEntity(
-                telegramId, "secret", null
+        Mockito.verify(tokenRepository, times(1)).save(
+            eq(
+                CalendarTokenEntity(
+                    telegramId, "secret", null
+                )
             )
-        ))
+        )
 
         Assertions.assertEquals(actual, "secret")
     }
@@ -52,18 +52,24 @@ class CalendarTokenServiceTest {
         val telegramId = 1234L
         val token = "secret"
 
-        doReturn(Optional.of(
-            CalendarTokenEntity(telegramId, token, null)
-        )).`when`(tokenRepository).findById(1234L)
+        doReturn(
+            Optional.of(
+                CalendarTokenEntity(telegramId, token, null)
+            )
+        ).`when`(tokenRepository).findById(1234L)
 
         doReturn("secret2")
             .`when`(tokenService).generateToken()
 
         val actual = tokenService.createOrUpdateToken(telegramId)
 
-        Mockito.verify(tokenRepository, times(1)).save(eq(CalendarTokenEntity(
-            telegramId, "secret2", null
-        )))
+        Mockito.verify(tokenRepository, times(1)).save(
+            eq(
+                CalendarTokenEntity(
+                    telegramId, "secret2", null
+                )
+            )
+        )
 
         Assertions.assertEquals(actual, "secret2")
     }

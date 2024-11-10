@@ -47,7 +47,8 @@ class RemoteScheduleManagementControllerTest {
     @Test
     fun `get token when it not exists`() {
         val telegramId = 123L
-        Mockito.`when`(tokenService.getToken(telegramId)).thenThrow(CalendarTokenNotFoundException("Такой токен не найден"))
+        Mockito.`when`(tokenService.getToken(telegramId))
+            .thenThrow(CalendarTokenNotFoundException("Такой токен не найден"))
 
         val params = LinkedMultiValueMap<String, String>()
         params["telegramId"] = listOf(telegramId.toString())

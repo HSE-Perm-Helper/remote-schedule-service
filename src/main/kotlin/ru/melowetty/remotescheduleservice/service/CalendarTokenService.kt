@@ -23,16 +23,18 @@ class CalendarTokenService(
             CalendarTokenEntity(telegramId, generatedToken, null)
         }
 
-        calendarTokenRepository.save(currentTokenEntity.copy(
-            token = generatedToken
-        ))
+        calendarTokenRepository.save(
+            currentTokenEntity.copy(
+                token = generatedToken
+            )
+        )
 
         return generatedToken
     }
 
     fun getToken(telegramId: Long): String {
         val tokenEntity = calendarTokenRepository.findById(telegramId)
-            .orElseThrow {  throw CalendarTokenNotFoundException("Ключ для этого пользователя не найден!") }
+            .orElseThrow { throw CalendarTokenNotFoundException("Ключ для этого пользователя не найден!") }
 
         return tokenEntity.token
     }

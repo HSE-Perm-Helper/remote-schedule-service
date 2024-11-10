@@ -28,7 +28,7 @@ class LessonExtensions {
 
             val event = VEvent(
                 startDateTime, endDateTime,
-                        lessonType.toEventSubject(subject)
+                lessonType.toEventSubject(subject)
             )
             val descriptionLines: MutableList<String> = mutableListOf()
 
@@ -77,8 +77,9 @@ class LessonExtensions {
             }
 
 
-            descriptionLines.add("\n" +
-                    "Последнее обновление: ${currentDateTime.format(DateTimeFormatter.ofPattern(DateUtils.DATE_TIME_PATTERN))}"
+            descriptionLines.add(
+                "\n" +
+                        "Последнее обновление: ${currentDateTime.format(DateTimeFormatter.ofPattern(DateUtils.DATE_TIME_PATTERN))}"
             )
 
             val id = UuidUtils.generateUUIDbySeed(hashCode().toString())
