@@ -17,9 +17,9 @@ import net.fortuna.ical4j.model.property.Name
 import net.fortuna.ical4j.model.property.ProdId
 import net.fortuna.ical4j.model.property.RefreshInterval
 import net.fortuna.ical4j.model.property.XProperty
-import org.springframework.dao.PermissionDeniedDataAccessException
 import org.springframework.stereotype.Service
 import ru.melowetty.remotescheduleservice.exception.CalendarAccessBadTokenException
+import ru.melowetty.remotescheduleservice.extension.LessonExtensions.Companion.toVEvent
 import ru.melowetty.remotescheduleservice.service.CalendarTokenService
 import ru.melowetty.remotescheduleservice.service.RemoteScheduleService
 import ru.melowetty.remotescheduleservice.service.ScheduleService

@@ -16,8 +16,10 @@ class RemoteScheduleController(
     private val remoteScheduleService: RemoteScheduleService
 ) {
     @GetMapping
-    fun getRemoteSchedule(@RequestParam("telegramId") telegramId: Long,
-                          @RequestParam token: String): ResponseEntity<ByteArray> {
+    fun getRemoteSchedule(
+        @RequestParam("telegramId") telegramId: Long,
+        @RequestParam token: String
+    ): ResponseEntity<ByteArray> {
         return ResponseEntity.ok()
             .contentType(MediaType.asMediaType(MimeType("text", "calendar", Charset.forName("UTF-8"))))
             .body(remoteScheduleService.getRemoteScheduleAsText(telegramId, token).toByteArray())
