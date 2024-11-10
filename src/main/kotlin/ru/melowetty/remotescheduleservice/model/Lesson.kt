@@ -1,15 +1,15 @@
 package ru.melowetty.remotescheduleservice.model
 
 import com.fasterxml.jackson.annotation.JsonFormat
+import java.net.URI
 import java.time.LocalDateTime
 import java.time.LocalTime
-import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import java.util.UUID
 import net.fortuna.ical4j.model.component.VEvent
 import net.fortuna.ical4j.model.property.Description
+import net.fortuna.ical4j.model.property.Location
 import net.fortuna.ical4j.model.property.Uid
-import net.fortuna.ical4j.util.RandomUidGenerator
+import net.fortuna.ical4j.model.property.Url
 import ru.melowetty.remotescheduleservice.utils.DateUtils
 import ru.melowetty.remotescheduleservice.utils.EmojiCodes
 import ru.melowetty.remotescheduleservice.utils.UuidUtils
@@ -43,7 +43,7 @@ data class Lesson(
         val distantSymbol = if (isOnline) EmojiCodes.DISTANT_LESSON_SYMBOL else ""
         val event = VEvent(
             startDateTime, endDateTime,
-            "${additionalInfoContainingSymbol}${distantSymbol}" +
+            "${additionalInfoContainingSymbol}${distantSymbol} " +
                     lessonType.toEventSubject(subject)
         )
         val descriptionLines: MutableList<String> = mutableListOf()
@@ -53,18 +53,19 @@ data class Lesson(
         }
 
         if (lecturer != null) {
-            descriptionLines.add("Преподаватель: $lecturer")
+            descriptionLines.add(lecturer)
         }
 
         if (isOnline) {
+            event.add(Location("Онлайн"))
             if (!links.isNullOrEmpty()) {
-                descriptionLines.add("Ссылка на пару: ${links[0]}")
+
+                event.add(Url(URI.create(links[0])))
+
                 if (links.size > 1) {
                     descriptionLines.add("Дополнительные ссылки на пару: ")
                     links.subList(1, links.size).forEach { descriptionLines.add(it) }
                 }
-            } else {
-                descriptionLines.add("Место: онлайн")
             }
 
         } else {
@@ -75,16 +76,14 @@ data class Lesson(
                                 "подробнее в HSE App X или в системе РУЗ"
                     )
                 } else {
-                    descriptionLines.add("Место: не указано")
+                    event.add(Location("Не указано"))
                 }
 
             } else {
-                if (places.size > 1) {
-                    descriptionLines.add("Место:")
-                    places.forEach { descriptionLines.add("${it.office} - ${it.building} корпус") }
-                } else {
-                    descriptionLines.add("Место: ${places.first().office} - ${places.first().building} корпус")
+                event.add(Location(places.joinToString(" · ") {
+                    "${it.office}, ${it.building} корпус"
                 }
+                ))
             }
         }
 
@@ -97,7 +96,8 @@ data class Lesson(
 
 
         descriptionLines.add("\n" +
-                "Последнее изменение: ${currentDateTime.format(DateTimeFormatter.ofPattern(DateUtils.DATE_TIME_PATTERN))}")
+                "Последнее обновление: ${currentDateTime.format(DateTimeFormatter.ofPattern(DateUtils.DATE_TIME_PATTERN))}"
+        )
 
         val id = UuidUtils.generateUUIDbySeed(hashCode().toString())
         event.add(Uid(id.toString()))
