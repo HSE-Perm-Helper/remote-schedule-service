@@ -92,9 +92,9 @@ class CalendarTokenServiceTest {
         doReturn("secret")
             .`when`(tokenService).getToken(telegramId)
 
-        val result = tokenService.verifyToken(telegramId, currentToken)
+        val result = tokenService.verifyToken(currentToken)
 
-        Assertions.assertFalse(result)
+        Assertions.assertNull(result)
     }
 
     @Test
@@ -105,9 +105,9 @@ class CalendarTokenServiceTest {
         doReturn("secret2")
             .`when`(tokenService).getToken(telegramId)
 
-        val result = tokenService.verifyToken(telegramId, currentToken)
+        val result = tokenService.verifyToken(currentToken)
 
-        Assertions.assertTrue(result)
+        Assertions.assertNull(result)
     }
 
     @Test

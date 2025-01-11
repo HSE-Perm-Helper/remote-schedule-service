@@ -28,7 +28,7 @@ class RemoteScheduleControllerTest {
     fun `get token when it not exists`() {
         val telegramId = 123L
         val token = "123"
-        Mockito.`when`(scheduleService.getRemoteScheduleAsText(telegramId, token))
+        Mockito.`when`(scheduleService.getRemoteScheduleAsText(token))
             .thenThrow(CalendarAccessBadTokenException("Неверный токен для этого аккаунта"))
 
         val params = LinkedMultiValueMap<String, String>()
