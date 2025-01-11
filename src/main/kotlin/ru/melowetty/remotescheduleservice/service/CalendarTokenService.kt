@@ -12,9 +12,9 @@ import ru.melowetty.remotescheduleservice.repository.CalendarTokenRepository
 class CalendarTokenService(
     private val calendarTokenRepository: CalendarTokenRepository,
 ) {
-    fun verifyToken(telegramId: Long, token: String): Boolean {
-        val realToken = getToken(telegramId)
-        return realToken == token
+    fun verifyToken(token: String): CalendarTokenEntity? {
+        val token = calendarTokenRepository.findByToken(token)
+        return token
     }
 
     fun createOrUpdateToken(telegramId: Long): String {
@@ -47,8 +47,8 @@ class CalendarTokenService(
         return LocalDateTime.now()
     }
 
-    fun markTokenAsUsed(telegramId: Long) {
-        val tokenEntity = calendarTokenRepository.findById(telegramId).getOrNull()
+    fun markTokenAsUsed(token: String) {
+        val tokenEntity = calendarTokenRepository.findByToken(token)
             ?: return
 
         calendarTokenRepository.save(tokenEntity.copy(lastFetch = getCurrentTime()))

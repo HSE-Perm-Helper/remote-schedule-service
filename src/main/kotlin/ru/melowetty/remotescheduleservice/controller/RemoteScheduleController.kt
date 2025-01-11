@@ -17,11 +17,10 @@ class RemoteScheduleController(
 ) {
     @GetMapping
     fun getRemoteSchedule(
-        @RequestParam("telegramId") telegramId: Long,
         @RequestParam token: String
     ): ResponseEntity<ByteArray> {
         return ResponseEntity.ok()
             .contentType(MediaType.asMediaType(MimeType("text", "calendar", Charset.forName("UTF-8"))))
-            .body(remoteScheduleService.getRemoteScheduleAsText(telegramId, token).toByteArray())
+            .body(remoteScheduleService.getRemoteScheduleAsText(token).toByteArray())
     }
 }

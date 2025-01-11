@@ -5,4 +5,6 @@ import org.springframework.stereotype.Repository
 import ru.melowetty.remotescheduleservice.entity.CalendarTokenEntity
 
 @Repository
-interface CalendarTokenRepository : JpaRepository<CalendarTokenEntity, Long>
+interface CalendarTokenRepository : JpaRepository<CalendarTokenEntity, Long> {
+    fun findByToken(token: String): CalendarTokenEntity?
+}
