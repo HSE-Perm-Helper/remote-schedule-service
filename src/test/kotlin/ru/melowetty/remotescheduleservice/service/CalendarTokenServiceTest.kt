@@ -109,7 +109,7 @@ class CalendarTokenServiceTest {
 
         val result = tokenService.verifyToken(currentToken)
 
-        Assertions.assertNull(result)
+        Assertions.assertNotNull(result)
     }
 
     @Test
