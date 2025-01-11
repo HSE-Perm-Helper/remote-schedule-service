@@ -29,14 +29,13 @@ class RemoteScheduleServiceImpl(
     private val scheduleService: ScheduleService,
     private val tokenService: CalendarTokenService
 ) : RemoteScheduleService {
-    override fun getRemoteScheduleAsText(telegramId: Long, token: String): String {
-        if (!tokenService.verifyToken(telegramId, token)) {
-            throw CalendarAccessBadTokenException("Недостаточно прав для просмотра этого календаря")
-        }
+    override fun getRemoteScheduleAsText(token: String): String {
+        val token = tokenService.verifyToken(token)
+            ?: throw CalendarAccessBadTokenException("Недостаточно прав для просмотра этого календаря")
 
         runBlocking {
             Dispatchers.IO {
-                tokenService.markTokenAsUsed(telegramId)
+                tokenService.markTokenAsUsed(token.token)
             }
         }
 
@@ -44,7 +43,7 @@ class RemoteScheduleServiceImpl(
         addMetaDataToCalendar(calendar)
 
         val currentDateTime = LocalDateTime.now(ZoneId.of("Asia/Yekaterinburg"))
-        val lessons = scheduleService.getUserLessons(telegramId)
+        val lessons = scheduleService.getUserLessons(token.telegramId)
         lessons.forEach { calendar.add(it.toVEvent(currentDateTime)) }
 
         return calendar.toString()

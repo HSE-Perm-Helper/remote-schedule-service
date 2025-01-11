@@ -25,10 +25,10 @@ class RemoteScheduleServiceTest {
     fun `exception when token is not valid`() {
         val telegramId = 123L
         val token = "secret"
-        Mockito.`when`(tokenService.verifyToken(telegramId, token)).thenReturn(false)
+        Mockito.`when`(tokenService.verifyToken(token)).thenReturn(null)
 
         Assertions.assertThrows(CalendarAccessBadTokenException::class.java) {
-            remoteScheduleService.getRemoteScheduleAsText(telegramId, token)
+            remoteScheduleService.getRemoteScheduleAsText(token)
         }
     }
 }
