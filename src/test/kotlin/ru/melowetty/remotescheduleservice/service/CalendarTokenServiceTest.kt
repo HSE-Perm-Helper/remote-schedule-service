@@ -86,11 +86,10 @@ class CalendarTokenServiceTest {
 
     @Test
     fun `test verify token when token is not valid`() {
-        val telegramId = 123L
         val currentToken = "secret2"
 
-        doReturn("secret")
-            .`when`(tokenService).getToken(telegramId)
+        doReturn(null)
+            .`when`(tokenRepository).findByToken(currentToken)
 
         val result = tokenService.verifyToken(currentToken)
 
@@ -99,11 +98,14 @@ class CalendarTokenServiceTest {
 
     @Test
     fun `test verify token when token is valid`() {
-        val telegramId = 123L
         val currentToken = "secret2"
 
-        doReturn("secret2")
-            .`when`(tokenService).getToken(telegramId)
+        doReturn(CalendarTokenEntity(
+            telegramId = 123,
+            token = currentToken,
+            lastFetch = null,
+        ))
+            .`when`(tokenRepository).findByToken(currentToken)
 
         val result = tokenService.verifyToken(currentToken)
 
