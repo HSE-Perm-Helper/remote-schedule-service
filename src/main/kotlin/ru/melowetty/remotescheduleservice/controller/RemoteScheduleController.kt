@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.servlet.view.RedirectView
 import ru.melowetty.remotescheduleservice.service.RemoteScheduleService
 
 @RestController
@@ -22,5 +23,10 @@ class RemoteScheduleController(
         return ResponseEntity.ok()
             .contentType(MediaType.asMediaType(MimeType("text", "calendar", Charset.forName("UTF-8"))))
             .body(remoteScheduleService.getRemoteScheduleAsText(token).toByteArray())
+    }
+
+    @GetMapping("/redirect")
+    fun redirect(@RequestParam target: String): RedirectView {
+        return RedirectView(target)
     }
 }
