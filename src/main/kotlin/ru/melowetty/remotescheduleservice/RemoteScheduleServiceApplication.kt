@@ -7,7 +7,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients
 
 @SpringBootApplication
 @EnableFeignClients
-@EnableDiscoveryClient
 class RemoteScheduleServiceApplication
 
 fun main(args: Array<String>) {

@@ -37,7 +37,6 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
-    implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
     /* [Calendar File Module] */
     implementation("org.mnode.ical4j:ical4j:4.0.0-beta9")
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign:4.1.1")

@@ -5,13 +5,12 @@ services:
     env_file: ./.env
     environment:
       - SPRING_PROFILES_ACTIVE=$ACTIVE_PROFILE
-      - EUREKA_CLIENT_SERVICE-URL_DEFAULTZONE=http://$SERVICE_DISCOVERY_USER:$SERVICE_DISCOVERY_PASSWORD@$SERVICE_DISCOVERY_HOST:$SERVICE_DISCOVERY_PORT/eureka
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresdb:$POSTGRESDB_DOCKER_PORT/$DB_NAME
       - SPRING_DATASOURCE_USERNAME=$DB_USERNAME
       - SPRING_DATASOURCE_PASSWORD=$DB_PASSWORD
     restart: always
     networks:
-      - service-discovery_internal
+      - api-gateway_backend
       - internal
   postgresdb:
     image: postgres
@@ -31,5 +30,5 @@ volumes:
   db:
 networks:
   internal:
-  service-discovery_internal:
+  api-gateway_backend:
     external: true
