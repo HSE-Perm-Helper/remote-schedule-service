@@ -19,5 +19,5 @@ jobs:
             cd services/remote-schedule-service
             git pull
             docker pull melowetty/remote-schedule-service
-            docker-compose up -d
+            docker compose up -d
             docker system prune --all --force
