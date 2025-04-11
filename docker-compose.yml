@@ -2,17 +2,20 @@ version: '3.8'
 services:
   remote-schedule-service:
     image: melowetty/remote-schedule-service
+    container_name: remote-schedule-service
     env_file: ./.env
     environment:
       - SPRING_PROFILES_ACTIVE=$ACTIVE_PROFILE
-      - EUREKA_CLIENT_SERVICE-URL_DEFAULTZONE=http://$SERVICE_DISCOVERY_USER:$SERVICE_DISCOVERY_PASSWORD@$SERVICE_DISCOVERY_HOST:$SERVICE_DISCOVERY_PORT/eureka
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresdb:$POSTGRESDB_DOCKER_PORT/$DB_NAME
       - SPRING_DATASOURCE_USERNAME=$DB_USERNAME
       - SPRING_DATASOURCE_PASSWORD=$DB_PASSWORD
+      - SERVER_PORT=8080
     restart: always
     networks:
-      - service-discovery_internal
+      - api-gateway_backend
       - internal
+    ports:
+      - 127.0.0.1:$CONTAINER_PORT:8080
   postgresdb:
     image: postgres
     restart: always
@@ -31,5 +34,5 @@ volumes:
   db:
 networks:
   internal:
-  service-discovery_internal:
+  api-gateway_backend:
     external: true
