@@ -14,9 +14,9 @@ jobs:
         with:
           host: ${{ secrets.DEPLOY_SERVER_HOST }}
           username: ${{ secrets.DEPLOY_SERVER_USER }}
-          password: ${{ secrets.DEPLOY_SERVER_PASSWORD }}
+          key: ${{ secrets.DEPLOY_SERVER_KEY }}
           script: |
-            cd /projects/remote-schedule-service
+            cd services/remote-schedule-service
             git pull
             docker pull melowetty/remote-schedule-service
             docker-compose up -d
