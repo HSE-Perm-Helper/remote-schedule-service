@@ -3,23 +3,22 @@ services:
   remote-schedule-service:
     image: melowetty/remote-schedule-service
     container_name: remote-schedule-service
-    env_file: ./.env
+    env_file: .env
     environment:
       - SPRING_PROFILES_ACTIVE=$ACTIVE_PROFILE
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresdb:$POSTGRESDB_DOCKER_PORT/$DB_NAME
       - SPRING_DATASOURCE_USERNAME=$DB_USERNAME
       - SPRING_DATASOURCE_PASSWORD=$DB_PASSWORD
-      - SERVER_PORT=8080
     restart: always
     networks:
       - api-gateway_backend
       - internal
-    ports:
-      - 127.0.0.1:$CONTAINER_PORT:8080
+    expose:
+      - $SERVER_PORT
   postgresdb:
     image: postgres
     restart: always
-    env_file: ./.env
+    env_file: .env
     environment:
       - POSTGRES_USER=$DB_USERNAME
       - POSTGRES_PASSWORD=$DB_PASSWORD
