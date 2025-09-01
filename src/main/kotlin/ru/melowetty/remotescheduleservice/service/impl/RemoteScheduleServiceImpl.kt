@@ -3,9 +3,6 @@ package ru.melowetty.remotescheduleservice.service.impl
 import java.time.Duration
 import java.time.LocalDateTime
 import java.time.ZoneId
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.invoke
-import kotlinx.coroutines.runBlocking
 import net.fortuna.ical4j.model.Calendar
 import net.fortuna.ical4j.model.ParameterList
 import net.fortuna.ical4j.model.TimeZoneRegistryFactory
@@ -33,18 +30,14 @@ class RemoteScheduleServiceImpl(
         val token = tokenService.verifyToken(token)
             ?: throw CalendarAccessBadTokenException("Недостаточно прав для просмотра этого календаря")
 
-        runBlocking {
-            Dispatchers.IO {
-                tokenService.markTokenAsUsed(token.token)
-            }
-        }
-
         val calendar = Calendar().withDefaults().fluentTarget
         addMetaDataToCalendar(calendar)
 
-        val currentDateTime = LocalDateTime.now(ZoneId.of("Asia/Yekaterinburg"))
+        val currentDateTime = LocalDateTime.now(ZoneId.of(TIME_ZONE))
         val lessons = scheduleService.getUserLessons(token.telegramId)
         lessons.forEach { calendar.add(it.toVEvent(currentDateTime)) }
+
+        tokenService.markTokenAsUsed(token.token)
 
         return calendar.toString()
     }
@@ -54,7 +47,7 @@ class RemoteScheduleServiceImpl(
         addCalendarName(calendar, name)
 
 
-        val description = "Расписание пар в НИУ ВШЭ - Пермь by HSE Perm Helper"
+        val description = "Расписание пар"
         addCalendarDescription(calendar, description)
 
         addAdditionalCalendarData(calendar)
@@ -77,9 +70,12 @@ class RemoteScheduleServiceImpl(
         val vTimeZone = TimeZoneRegistryFactory
             .getInstance()
             .createRegistry()
-            .getTimeZone("Asia/Yekaterinburg")
+            .getTimeZone(TIME_ZONE)
             .vTimeZone
+
         calendar.add(vTimeZone)
+
+        calendar.add(XProperty("X-WR-TIMEZONE", TIME_ZONE))
 
         val color = Color()
         color.value = "0:71:187"
@@ -88,5 +84,9 @@ class RemoteScheduleServiceImpl(
 
         calendar.add(RefreshInterval(ParameterList(listOf(Value.DURATION)), Duration.ofHours(1)))
         calendar.add(XProperty("X-PUBLISHED-TTL", Duration.ofHours(1).toString()))
+    }
+
+    companion object {
+        private const val TIME_ZONE = "Asia/Yekaterinburg"
     }
 }
