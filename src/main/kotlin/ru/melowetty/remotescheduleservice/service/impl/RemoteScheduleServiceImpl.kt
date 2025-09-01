@@ -2,7 +2,6 @@ package ru.melowetty.remotescheduleservice.service.impl
 
 import java.time.Duration
 import java.time.LocalDateTime
-import java.time.ZoneId
 import net.fortuna.ical4j.model.Calendar
 import net.fortuna.ical4j.model.ParameterList
 import net.fortuna.ical4j.model.TimeZoneRegistryFactory
@@ -20,6 +19,7 @@ import ru.melowetty.remotescheduleservice.extension.LessonExtensions.Companion.t
 import ru.melowetty.remotescheduleservice.service.CalendarTokenService
 import ru.melowetty.remotescheduleservice.service.RemoteScheduleService
 import ru.melowetty.remotescheduleservice.service.ScheduleService
+import ru.melowetty.remotescheduleservice.utils.DateUtils
 
 @Service
 class RemoteScheduleServiceImpl(
@@ -33,7 +33,7 @@ class RemoteScheduleServiceImpl(
         val calendar = Calendar().withDefaults().fluentTarget
         addMetaDataToCalendar(calendar)
 
-        val currentDateTime = LocalDateTime.now(ZoneId.of(TIME_ZONE))
+        val currentDateTime = LocalDateTime.now(DateUtils.timeZone)
         val lessons = scheduleService.getUserLessons(token.telegramId)
         lessons.forEach { calendar.add(it.toVEvent(currentDateTime)) }
 
@@ -70,12 +70,12 @@ class RemoteScheduleServiceImpl(
         val vTimeZone = TimeZoneRegistryFactory
             .getInstance()
             .createRegistry()
-            .getTimeZone(TIME_ZONE)
+            .getTimeZone(DateUtils.TIME_ZONE_STR)
             .vTimeZone
 
         calendar.add(vTimeZone)
 
-        calendar.add(XProperty("X-WR-TIMEZONE", TIME_ZONE))
+        calendar.add(XProperty("X-WR-TIMEZONE", DateUtils.TIME_ZONE_STR))
 
         val color = Color()
         color.value = "0:71:187"
@@ -84,9 +84,5 @@ class RemoteScheduleServiceImpl(
 
         calendar.add(RefreshInterval(ParameterList(listOf(Value.DURATION)), Duration.ofHours(1)))
         calendar.add(XProperty("X-PUBLISHED-TTL", Duration.ofHours(1).toString()))
-    }
-
-    companion object {
-        private const val TIME_ZONE = "Asia/Yekaterinburg"
     }
 }
