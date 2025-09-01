@@ -23,8 +23,8 @@ class LessonExtensions {
          * @return converted lesson to VEvent object
          */
         fun Lesson.toVEvent(currentDateTime: LocalDateTime): VEvent {
-            val startDateTime = getLocalDateTimeFromTimeAsString(time.date, time.startTime)
-            val endDateTime = getLocalDateTimeFromTimeAsString(time.date, time.endTime)
+            val startDateTime = getLocalDateTimeFromTimeAsString(time.date, time.startTime).toInstant(DateUtils.zoneOffset)
+            val endDateTime = getLocalDateTimeFromTimeAsString(time.date, time.endTime).toInstant(DateUtils.zoneOffset)
 
             val event = VEvent(
                 startDateTime, endDateTime,
