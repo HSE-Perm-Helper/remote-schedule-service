@@ -18,12 +18,12 @@ import ru.melowetty.remotescheduleservice.exception.CalendarAccessBadTokenExcept
 import ru.melowetty.remotescheduleservice.extension.LessonExtensions.Companion.toVEvent
 import ru.melowetty.remotescheduleservice.service.CalendarTokenService
 import ru.melowetty.remotescheduleservice.service.RemoteScheduleService
-import ru.melowetty.remotescheduleservice.service.ScheduleService
+import ru.melowetty.remotescheduleservice.service.TimetableService
 import ru.melowetty.remotescheduleservice.utils.DateUtils
 
 @Service
 class RemoteScheduleServiceImpl(
-    private val scheduleService: ScheduleService,
+    private val timetableService: TimetableService,
     private val tokenService: CalendarTokenService
 ) : RemoteScheduleService {
     override fun getRemoteScheduleAsText(token: String): String {
@@ -34,7 +34,7 @@ class RemoteScheduleServiceImpl(
         addMetaDataToCalendar(calendar)
 
         val currentDateTime = LocalDateTime.now(DateUtils.timeZone)
-        val lessons = scheduleService.getUserLessons(token.telegramId)
+        val lessons = timetableService.getUserLessons(token.telegramId)
         lessons.forEach { calendar.add(it.toVEvent(currentDateTime)) }
 
         tokenService.markTokenAsUsed(token.token)

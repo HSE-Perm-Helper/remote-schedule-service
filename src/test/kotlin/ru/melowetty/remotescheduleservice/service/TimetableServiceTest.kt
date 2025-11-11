@@ -16,19 +16,19 @@ import ru.melowetty.remotescheduleservice.model.LessonPlace
 import ru.melowetty.remotescheduleservice.model.LessonTime
 import ru.melowetty.remotescheduleservice.model.LessonType
 import ru.melowetty.remotescheduleservice.model.ScheduleType
-import ru.melowetty.remotescheduleservice.repository.ScheduleRepository
+import ru.melowetty.remotescheduleservice.repository.TimetableRepository
 import ru.melowetty.remotescheduleservice.repository.response.ExternalSchedule
 import ru.melowetty.remotescheduleservice.repository.response.ExternalScheduleInfo
 import ru.melowetty.remotescheduleservice.repository.response.Response
-import ru.melowetty.remotescheduleservice.service.impl.ScheduleServiceImpl
+import ru.melowetty.remotescheduleservice.service.impl.TimetableServiceImpl
 
 @ExtendWith(MockitoExtension::class)
-class ScheduleServiceTest {
+class TimetableServiceTest {
     @Mock
-    private lateinit var scheduleRepository: ScheduleRepository
+    private lateinit var timetableRepository: TimetableRepository
 
     @InjectMocks
-    private lateinit var scheduleService: ScheduleServiceImpl
+    private lateinit var scheduleService: TimetableServiceImpl
 
     @Test
     fun getUserLessons() {
@@ -56,7 +56,7 @@ class ScheduleServiceTest {
             )
         )
 
-        `when`(scheduleRepository.getAvailableSchedules())
+        `when`(timetableRepository.getAvailableSchedules())
             .thenReturn(
                 Response(
                     false, listOf(
@@ -75,7 +75,7 @@ class ScheduleServiceTest {
             )
 
         `when`(
-            scheduleRepository.getUserSchedule(
+            timetableRepository.getUserSchedule(
                 eq(123L),
                 eq(LocalDate.of(2024, 10, 7)),
                 eq(LocalDate.of(2024, 10, 13))
@@ -86,7 +86,7 @@ class ScheduleServiceTest {
         val actual = scheduleService.getUserLessons(123)
         val expected = schedule.lessons
 
-        verify(scheduleRepository, never()).getUserSchedule(
+        verify(timetableRepository, never()).getUserSchedule(
             eq(123L),
             eq(LocalDate.of(2024, 9, 2)),
             eq(LocalDate.of(2024, 10, 24))

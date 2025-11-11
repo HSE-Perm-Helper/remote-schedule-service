@@ -25,16 +25,16 @@ import ru.melowetty.remotescheduleservice.repository.response.ExternalScheduleIn
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @Testcontainers
 @ActiveProfiles("test")
-class ScheduleRepositoryTest {
+class TimetableRepositoryTest {
     @Autowired
-    private lateinit var scheduleRepository: ScheduleRepository
+    private lateinit var timetableRepository: TimetableRepository
 
     @MockBean
     private lateinit var dataSource: DataSource
 
     @Test
     fun getSchedulesInfo_returnsSchedulesInfo() {
-        val actual: List<ExternalScheduleInfo> = scheduleRepository.getAvailableSchedules().response
+        val actual: List<ExternalScheduleInfo> = timetableRepository.getAvailableSchedules().response
 
         val expected = listOf(
             ExternalScheduleInfo(
@@ -56,7 +56,7 @@ class ScheduleRepositoryTest {
 
     @Test
     fun getWeekSchedule_returnsWeekSchedule() {
-        val actual: ExternalSchedule = scheduleRepository
+        val actual: ExternalSchedule = timetableRepository
             .getUserSchedule(1, LocalDate.of(2024, 10, 7), LocalDate.of(2024, 10, 13))
             .response
 
@@ -91,8 +91,8 @@ class ScheduleRepositoryTest {
         @Container
         @JvmStatic
         var wireMock: WireMockContainer = WireMockContainer("wiremock/wiremock:3.2.0-alpine")
-            .withMappingFromResource(ScheduleRepositoryTest::class.java, "schedules.json")
-            .withMappingFromResource(ScheduleRepositoryTest::class.java, "week_lessons.json")
+            .withMappingFromResource(TimetableRepositoryTest::class.java, "schedules.json")
+            .withMappingFromResource(TimetableRepositoryTest::class.java, "week_lessons.json")
 
         @DynamicPropertySource
         @JvmStatic
