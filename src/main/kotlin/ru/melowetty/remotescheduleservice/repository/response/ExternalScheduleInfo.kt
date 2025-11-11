@@ -6,6 +6,7 @@ import ru.melowetty.remotescheduleservice.model.ScheduleType
 import ru.melowetty.remotescheduleservice.utils.DateUtils
 
 data class ExternalScheduleInfo(
+    val id: String,
     val number: Int?,
     @JsonFormat(pattern = DateUtils.DATE_PATTERN)
     val start: LocalDate,

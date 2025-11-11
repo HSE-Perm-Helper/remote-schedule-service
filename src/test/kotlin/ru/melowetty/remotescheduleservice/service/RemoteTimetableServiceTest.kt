@@ -11,12 +11,12 @@ import ru.melowetty.remotescheduleservice.exception.CalendarAccessBadTokenExcept
 import ru.melowetty.remotescheduleservice.service.impl.RemoteScheduleServiceImpl
 
 @ExtendWith(MockitoExtension::class)
-class RemoteScheduleServiceTest {
+class RemoteTimetableServiceTest {
     @InjectMocks
     private lateinit var remoteScheduleService: RemoteScheduleServiceImpl
 
     @Mock
-    private lateinit var scheduleService: ScheduleService
+    private lateinit var timetableService: TimetableService
 
     @Mock
     private lateinit var tokenService: CalendarTokenService
