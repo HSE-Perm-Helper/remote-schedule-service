@@ -15,5 +15,7 @@ interface TimetableRepository {
     ): ExternalSchedule
 
     @GetMapping("v3/users/{telegramId}/timetables")
-    fun getAvailableTimetables(): List<ExternalScheduleInfo>
+    fun getAvailableTimetables(
+        @PathVariable("telegramId") telegramId: Long,
+    ): List<ExternalScheduleInfo>
 }
