@@ -6,7 +6,7 @@ import ru.melowetty.remotescheduleservice.model.Lesson
 import ru.melowetty.remotescheduleservice.model.ScheduleType
 import ru.melowetty.remotescheduleservice.utils.DateUtils
 
-data class ExternalSchedule(
+data class ExternalTimetable(
     val id: String,
     val number: Int?,
     val lessons: List<Lesson>,

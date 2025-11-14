@@ -18,7 +18,7 @@ import ru.melowetty.remotescheduleservice.model.LessonPlace
 import ru.melowetty.remotescheduleservice.model.LessonTime
 import ru.melowetty.remotescheduleservice.model.LessonType
 import ru.melowetty.remotescheduleservice.model.ScheduleType
-import ru.melowetty.remotescheduleservice.repository.response.ExternalSchedule
+import ru.melowetty.remotescheduleservice.repository.response.ExternalTimetable
 import ru.melowetty.remotescheduleservice.repository.response.ExternalScheduleInfo
 
 
@@ -58,10 +58,10 @@ class TimetableRepositoryTest {
 
     @Test
     fun getWeekSchedule_returnsWeekSchedule() {
-        val actual: ExternalSchedule = timetableRepository
+        val actual: ExternalTimetable = timetableRepository
             .getTimetable(1, "2")
 
-        val expected = ExternalSchedule(
+        val expected = ExternalTimetable(
             id = "2",
             number = 6,
             start = LocalDate.of(2024, 10, 7),
@@ -92,8 +92,8 @@ class TimetableRepositoryTest {
     companion object {
         @Container
         @JvmStatic
-        var wireMock: WireMockContainer = WireMockContainer("wiremock/wiremock:3.2.0-alpine")
-            .withMappingFromResource(TimetableRepositoryTest::class.java, "schedules.json")
+        var wireMock: WireMockContainer = WireMockContainer("wiremock/wiremock:3.13.2")
+            .withMappingFromResource(TimetableRepositoryTest::class.java, "timetables.json")
             .withMappingFromResource(TimetableRepositoryTest::class.java, "week_lessons.json")
 
         @DynamicPropertySource

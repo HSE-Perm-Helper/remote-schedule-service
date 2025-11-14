@@ -17,7 +17,7 @@ import ru.melowetty.remotescheduleservice.model.LessonTime
 import ru.melowetty.remotescheduleservice.model.LessonType
 import ru.melowetty.remotescheduleservice.model.ScheduleType
 import ru.melowetty.remotescheduleservice.repository.TimetableRepository
-import ru.melowetty.remotescheduleservice.repository.response.ExternalSchedule
+import ru.melowetty.remotescheduleservice.repository.response.ExternalTimetable
 import ru.melowetty.remotescheduleservice.repository.response.ExternalScheduleInfo
 import ru.melowetty.remotescheduleservice.service.impl.TimetableServiceImpl
 
@@ -27,13 +27,13 @@ class TimetableServiceTest {
     private lateinit var timetableRepository: TimetableRepository
 
     @InjectMocks
-    private lateinit var scheduleService: TimetableServiceImpl
+    private lateinit var timetableService: TimetableServiceImpl
 
     @Test
     fun getUserLessons() {
         val telegramId = 123L
 
-        val schedule = ExternalSchedule(
+        val schedule = ExternalTimetable(
             id = "1",
             number = 6,
             start = LocalDate.of(2024, 10, 7),
@@ -83,7 +83,7 @@ class TimetableServiceTest {
         )
             .thenReturn(schedule)
 
-        val actual = scheduleService.getUserLessons(123)
+        val actual = timetableService.getUserLessons(123)
         val expected = schedule.lessons
 
         verify(timetableRepository, never()).getTimetable(
