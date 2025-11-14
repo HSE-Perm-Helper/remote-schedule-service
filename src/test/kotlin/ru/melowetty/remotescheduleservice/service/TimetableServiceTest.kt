@@ -17,9 +17,8 @@ import ru.melowetty.remotescheduleservice.model.LessonTime
 import ru.melowetty.remotescheduleservice.model.LessonType
 import ru.melowetty.remotescheduleservice.model.ScheduleType
 import ru.melowetty.remotescheduleservice.repository.TimetableRepository
-import ru.melowetty.remotescheduleservice.repository.response.ExternalSchedule
+import ru.melowetty.remotescheduleservice.repository.response.ExternalTimetable
 import ru.melowetty.remotescheduleservice.repository.response.ExternalScheduleInfo
-import ru.melowetty.remotescheduleservice.repository.response.Response
 import ru.melowetty.remotescheduleservice.service.impl.TimetableServiceImpl
 
 @ExtendWith(MockitoExtension::class)
@@ -28,11 +27,14 @@ class TimetableServiceTest {
     private lateinit var timetableRepository: TimetableRepository
 
     @InjectMocks
-    private lateinit var scheduleService: TimetableServiceImpl
+    private lateinit var timetableService: TimetableServiceImpl
 
     @Test
     fun getUserLessons() {
-        val schedule = ExternalSchedule(
+        val telegramId = 123L
+
+        val schedule = ExternalTimetable(
+            id = "1",
             number = 6,
             start = LocalDate.of(2024, 10, 7),
             end = LocalDate.of(2024, 10, 13),
@@ -56,40 +58,37 @@ class TimetableServiceTest {
             )
         )
 
-        `when`(timetableRepository.getAvailableSchedules())
+        `when`(timetableRepository.getAvailableTimetables(telegramId))
             .thenReturn(
-                Response(
-                    false, listOf(
-                        ExternalScheduleInfo(
-                            1, LocalDate.of(2024, 10, 7),
-                            LocalDate.of(2024, 10, 13), scheduleType = ScheduleType.WEEK_SCHEDULE
-                        ),
-                        ExternalScheduleInfo(
-                            number = 1,
-                            start = LocalDate.of(2024, 9, 2),
-                            end = LocalDate.of(2024, 10, 24),
-                            scheduleType = ScheduleType.QUARTER_SCHEDULE
-                        )
+                listOf(
+                    ExternalScheduleInfo(
+                        "1", 1, LocalDate.of(2024, 10, 7),
+                        LocalDate.of(2024, 10, 13), scheduleType = ScheduleType.WEEK_SCHEDULE
+                    ),
+                    ExternalScheduleInfo(
+                        "2",
+                        number = 1,
+                        start = LocalDate.of(2024, 9, 2),
+                        end = LocalDate.of(2024, 10, 24),
+                        scheduleType = ScheduleType.QUARTER_SCHEDULE
                     )
                 )
             )
 
         `when`(
-            timetableRepository.getUserSchedule(
-                eq(123L),
-                eq(LocalDate.of(2024, 10, 7)),
-                eq(LocalDate.of(2024, 10, 13))
+            timetableRepository.getTimetable(
+                eq(telegramId),
+                eq("1")
             )
         )
-            .thenReturn(Response(false, schedule))
+            .thenReturn(schedule)
 
-        val actual = scheduleService.getUserLessons(123)
+        val actual = timetableService.getUserLessons(123)
         val expected = schedule.lessons
 
-        verify(timetableRepository, never()).getUserSchedule(
-            eq(123L),
-            eq(LocalDate.of(2024, 9, 2)),
-            eq(LocalDate.of(2024, 10, 24))
+        verify(timetableRepository, never()).getTimetable(
+            eq(telegramId),
+            eq("2")
         )
 
         Assertions.assertEquals(expected, actual)

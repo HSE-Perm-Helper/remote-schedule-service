@@ -1,4 +1,4 @@
-FROM openjdk:21-jdk-slim
+FROM openjdk:21-ea-slim
 
 COPY remote-schedule-service-standalone.jar .
 

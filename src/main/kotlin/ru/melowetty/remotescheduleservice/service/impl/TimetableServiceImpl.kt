@@ -16,7 +16,7 @@ class TimetableServiceImpl(
     private val timetableRepository: TimetableRepository
 ) : TimetableService {
     override fun getUserLessons(telegramId: Long): List<Lesson> {
-        val availableTimetables = timetableRepository.getAvailableTimetables().filter {
+        val availableTimetables = timetableRepository.getAvailableTimetables(telegramId).filter {
             it.scheduleType != ScheduleType.QUARTER_SCHEDULE
         }
 
